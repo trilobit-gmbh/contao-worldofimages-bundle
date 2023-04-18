@@ -1,0 +1,3 @@
+trilobit_worldofimages:
+    resource: '../../Controller/'
+    type: annotation

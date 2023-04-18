@@ -1,0 +1,314 @@
+trilobit:
+    pixabay:
+        api_url: 'https://pixabay.com/api/'
+        api:
+            -
+                - key
+                - string
+            -
+                - q
+                - string
+            -
+                - lang
+                - string
+            -
+                - id
+                - string
+            -
+                - image_type
+                - string
+            -
+                - orientation
+                - string
+            -
+                - category
+                - string
+            -
+                - min_width
+                - int
+            -
+                - min_height
+                - int
+            -
+                - colors
+                - string
+            -
+                - editors_choice
+                - bool
+            -
+                - safesearch
+                - bool
+            -
+                - order
+                - string
+            -
+                - page
+                - int
+            -
+                - per_page
+                - int
+            -
+                - response_group
+                - string
+        image_type:
+            - all
+            - photo
+            - illustration
+            - vector
+        orientation:
+            - all
+            - horizontal
+            - vertical
+        category:
+            - backgrounds
+            - fashion
+            - nature
+            - science
+            - education
+            - feelings
+            - health
+            - people
+            - religion
+            - places
+            - animals
+            - industry
+            - computer
+            - food
+            - sports
+            - transportation
+            - travel
+            - buildings
+            - business
+            - music
+        order:
+            - popular
+            - latest
+        colors:
+            - grayscale
+            - transparent
+            - red
+            - orange
+            - yellow
+            - green
+            - turquoise
+            - blue
+            - lilac
+            - pink
+            - white
+            - gray
+            - black
+            - brown
+        image_source:
+            - largeImageURL
+            - fullHDURL
+            - imageURL
+            - webformatURL
+        default_upload_image: 'largeImageURL'
+        image_page_url: 'pageURL'
+        query_key: 'q'
+
+    pexels:
+        api_url: 'https://api.pexels.com/v1/search'
+        api:
+            -
+                - query
+                - string
+            -
+                - orientation
+                - string
+            -
+                - color
+                - string
+            -
+                - page
+                - int
+            -
+                - per_page
+                - int
+        orientation:
+            - landscape
+            - portrait
+            - square
+        color:
+            - red
+            - orange
+            - yellow
+            - green
+            - turquoise
+            - blue
+            - violet
+            - pink
+            - brown
+            - black
+            - gray
+            - white
+        imageSource:
+            - original
+            - large
+            - large2x
+            - medium
+            - small
+            - portrait
+            - landscape
+            - tiny
+        default_upload_image: 'large2x'
+        image_page_url: 'url'
+        query_key: 'query'
+
+    flickr:
+        api_url: 'https://www.flickr.com/services/rest/'
+        api:
+            -
+                - api_key
+                - string
+            -
+                - tags
+                - string
+            -
+                - tag_mode
+                - string
+            -
+                - text
+                - string
+            -
+                - min_upload_date
+                - string
+            -
+                - max_upload_date
+                - string
+            -
+                - min_taken_date
+                - string
+            -
+                - max_taken_date
+                - string
+            -
+                - sort
+                - string
+            -
+                - safe_search
+                - string
+            -
+                - content_type
+                - string
+            -
+                - group_id
+                - string
+            -
+                - contacts
+                - string
+            -
+                - has_geo
+                - string
+            -
+                - geo_context
+                - string
+            -
+                - lat
+                - string
+            -
+                - lon
+                - string
+            -
+                - page
+                - int
+            -
+                - per_page
+                - int
+        search:
+            - tags
+            - text
+        tag_mode:
+            - OR
+            - AND
+        sort:
+            - date-posted-asc
+            - date-posted-desc
+            - date-taken-asc
+            - date-taken-desc
+            - interestingness-desc
+            - interestingness-asc
+            - relevance
+        safe_search:
+            - 1 # safe
+            - 2 # moderate
+            - 3 # restricted
+        content_type:
+            - 1 # photos only.
+            - 2 # screenshots only
+            - 3 # other only
+            - 4 # photos and screenshots
+            - 5 # screenshots and other
+            - 6 # photos and other
+            - 7 # all
+        geo_context:
+            - 0 # not defined
+            - 1 # indoors
+            - 2 # outdoors
+        imageSource:
+            - s
+            - q
+            - t
+            - m
+            - n
+            - w
+            - z
+            - c
+            - b
+            - h # Inhaber des Fotos kann einschränken
+            - k # Inhaber des Fotos kann einschränken
+            - 3k # Inhaber des Fotos kann einschränken
+            - 4k # Inhaber des Fotos kann einschränken
+            - 5k # Inhaber des Fotos kann einschränken
+            - 6k # Inhaber des Fotos kann einschränken
+        default_upload_image: 'b'
+        query_key: 'tag_text'
+
+    unsplash:
+        api_url: 'https://api.unsplash.com/'
+        api:
+            -
+                - query
+                - string
+            -
+                - orientation
+                - string
+            -
+                - page
+                - int
+            -
+                - per_page
+                - int
+            -
+                - order_by
+                - string
+            -
+                - content_filter
+                - string
+            -
+                - color
+                - string
+        orientation:
+            - landscape
+            - portrait
+            - squarish
+        order_by:
+            - latest
+            - relevant
+        content_filter:
+            - low
+            - high
+        color:
+            - black_and_white
+            - black
+            - white
+            - yellow
+            - orange
+            - red
+            - purple
+            - magenta
+            - green
+            - teal
+            - blue
+        image_page_url: 'url'
+        query_key: 'query'
