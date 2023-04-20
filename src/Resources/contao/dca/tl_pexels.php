@@ -26,14 +26,14 @@ $GLOBALS['TL_DCA']['tl_pexels'] = [
         'pexels_orientation' => [
             'inputType' => 'select',
             'options_callback' => [ConfigurationProvider::class, 'pexelsGetOrientation'],
-            //'reference' => &$GLOBALS['TL_LANG']['tl_pixabay']['options']['orientation'],
+            'reference' => &$GLOBALS['TL_LANG']['tl_pexels']['options']['orientation'],
             'eval' => ['chosen' => true, 'includeBlankOption' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
         'pexels_color' => [
             'inputType' => 'select',
             'options_callback' => [ConfigurationProvider::class, 'pexelsGetColor'],
-            //'reference' => &$GLOBALS['TL_LANG']['tl_pixabay']['options']['colors'],
+            'reference' => &$GLOBALS['TL_LANG']['tl_pexels']['options']['color'],
             'eval' => ['chosen' => true, 'includeBlankOption' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],

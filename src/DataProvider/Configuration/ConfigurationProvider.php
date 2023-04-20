@@ -83,7 +83,7 @@ class ConfigurationProvider
 
     public function unsplashGetContentfilter(DataContainer $dc): array
     {
-        return self::getConfig('pexels', 'content_filter');
+        return self::getConfig('unsplash', 'content_filter');
     }
 
     public function pexelsGetOrientation(DataContainer $dc): array

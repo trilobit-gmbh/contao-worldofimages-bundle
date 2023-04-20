@@ -7,7 +7,7 @@ _todo_
 Bilderwelten bundle
 ===================
 
-Mit der Bilderwelten Erweiterung können sie über die Dateiverwaltung von Contao Bilder oder Fotos von den freien Bilddatenbanken Pixabay, Pexels und Unsplash herunterladen. Um diese Bilddatenbanken benutzen zu können, benötigen sie jeweils einen API-Key, den sie nach der Registrierung bei Pixabay anfordern können. Sie können außerdem Voreinstellungen für die Bilderwelten-Suche in der Benutzerverwaltung festlegen.
+Mit der Bilderwelten Erweiterung können sie über die Dateiverwaltung von Contao Bilder oder Fotos von den freien Bilddatenbanken Pixabay, Pexels, Unsplash und Flickr herunterladen. Um diese Bilddatenbanken benutzen zu können, benötigen sie jeweils einen API-Key, den sie nach der Registrierung bei dem jeweiligen Anbietern anfordern können. Sie können außerdem Voreinstellungen für die Bilderwelten-Suche in der Benutzerverwaltung festlegen.
 
 
 
@@ -30,11 +30,12 @@ And add the following code (with the API-Key from the Pixabay Website) to the co
 
     contao:
       localconfig:
+        pixabayApiKey: 'Your Pixabay-API-Key'
         pexelsApiKey: 'Your Pexels-API-Key'
         unsplashApiKey: 'Your Unsplash-API-Key'
-        pixabayApiKey: 'Your Pixabay-API-Key'
+        flickrApiKey: 'Your Flickr-API-Key'
 
-        pixabayImageSource: 'largeImageURL'
+        pixabayImageSource: 'fullHDURL'
         pexelsImageSource: 'large2x'
 
 
