@@ -11,3 +11,4 @@ declare(strict_types=1);
 $GLOBALS['TL_LANG']['FOP']['pexels'] = 'Pexels';
 $GLOBALS['TL_LANG']['FOP']['unsplash'] = 'Unsplash';
 $GLOBALS['TL_LANG']['FOP']['pixabay'] = 'Pixabay';
+$GLOBALS['TL_LANG']['FOP']['flickr'] = 'Flickr';
