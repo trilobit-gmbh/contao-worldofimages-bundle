@@ -125,4 +125,10 @@ class ConfigurationProvider
     {
         return self::getConfig('flickr', 'search');
     }
+
+    public function getValue($value, DataContainer $dc): string
+    {
+        var_dump($value, $dc);
+        die();
+    }
 }
