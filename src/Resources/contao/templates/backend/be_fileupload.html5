@@ -411,7 +411,9 @@
     search();
 
     // todo
+    <?php if (isset($GLOBALS['TL_CONFIG']['page'])): ?>
     if (isCachedResult) searchUpdate(<?= $GLOBALS['TL_CONFIG']['page']; ?>);
+    <?php endif; ?>
 </script>
 
 <div><div>

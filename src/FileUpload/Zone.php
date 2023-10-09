@@ -33,7 +33,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class Zone extends Backend
 {
-    public static function generateFilterPalette($provider, $result, $user)
+    public static function generateFilterPalette($provider)
     {
         Controller::loadDataContainer('tl_'.$provider);
 
@@ -154,6 +154,7 @@ class Zone extends Backend
 
         if (!empty($result)) {
             $cachedResult = true;
+
             $query = (
                 \array_key_exists('q', $result['__api__']['parameter'])
                     ? $result['__api__']['parameter']['q']
@@ -163,6 +164,7 @@ class Zone extends Backend
                             : ''
                 )
             );
+
             $page = \array_key_exists('page', $result['__api__']['parameter'])
                 ? $result['__api__']['parameter']['page']
                 : 1
@@ -188,7 +190,7 @@ class Zone extends Backend
         $template->search_legend = $GLOBALS['TL_LANG']['tl_'.$provider]['search_legend'];
         $template->result_legend = $GLOBALS['TL_LANG']['tl_'.$provider]['result_legend'];
 
-        $template->filterPalette = self::generateFilterPalette($provider, $result, $user);
+        $template->filterPalette = self::generateFilterPalette($provider);
 
         $template->queryTitle = $GLOBALS['TL_LANG']['tl_'.$provider]['queryTitle'];
         $template->queryHelp = $GLOBALS['TL_LANG']['tl_'.$provider]['queryHelp'];
@@ -487,7 +489,9 @@ class Zone extends Backend
 
         $checksum = !empty($parameter)
             ? md5(implode('', $parameter))
-            : Input::post('tl_cache') ?? $session['cache']
+            : (Input::post('tl_cache')
+                ?: $session['cache'] ?? ''
+            )
         ;
 
         $cacheFile = StringUtil::stripRootDir($cacheDir).'/trilobit/'.$provider.'_'.$checksum.'.json';
@@ -583,8 +587,6 @@ class Zone extends Backend
             }
         }
 
-        return $result;
-
         System::getContainer()
             ->get('session')
             ->getBag('contao_backend')
@@ -627,25 +629,31 @@ class Zone extends Backend
 
     public static function handleConfigParameter($config, $result, $user, $provider): void
     {
+        $GLOBALS['TL_CONFIG']['page'] = 1;
+
         foreach ($config['api'] as $item) {
             $key = $item[0];
             $type = $item[1];
 
-            $GLOBALS['TL_CONFIG'][$key] = $user->{$key};
+            if (!empty($user->{$provider.'_'.$key})) {
+                $GLOBALS['TL_CONFIG'][$provider.'_'.$key] = $user->{$provider.'_'.$key};
+            }
 
             if (empty($result)) {
                 continue;
             }
 
             if (isset($result['__api__']['parameter'][$key])
-                && '' !== $result['__api__']['parameter'][$key]
+                && !empty($result['__api__']['parameter'][$key])
             ) {
-                if ('bool' === strtolower($type)) {
+                if ('page' === $key) {
+                    $GLOBALS['TL_CONFIG']['page'] = (int) $result['__api__']['parameter'][$key];
+                } elseif ('bool' === strtolower($type)) {
                     $GLOBALS['TL_CONFIG'][$provider.'_'.$key] = 'true';
                 } elseif ('int' === strtolower($type)) {
-                    $GLOBALS['TL_CONFIG'][$provider.'_'.$key] = (int) Input::get($key);
+                    $GLOBALS['TL_CONFIG'][$provider.'_'.$key] = (int) $result['__api__']['parameter'][$key];
                 } else {
-                    $GLOBALS['TL_CONFIG'][$provider.'_'.$key] = Input::get($key);
+                    $GLOBALS['TL_CONFIG'][$provider.'_'.$key] = $result['__api__']['parameter'][$key];
                 }
             }
         }

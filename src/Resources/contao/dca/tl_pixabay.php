@@ -8,7 +8,6 @@ declare(strict_types=1);
  * @license    LGPL-3.0-or-later
  */
 
-use Contao\System;
 use Trilobit\WorldofimagesBundle\DataProvider\Configuration\ConfigurationProvider;
 
 /* todo: make complete */
