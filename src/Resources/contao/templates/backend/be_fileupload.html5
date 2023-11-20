@@ -66,9 +66,9 @@
         //$$('div.tl_formbody_submit').addClass('invisible');
     });
 
-    let images = $('images');
-    let pagination = $('pagination');
-    let page = 1;
+    let images = document.querySelector('#images');
+    let pagination = document.querySelector('#pagination');
+    let page = <?= $this->page; ?>;
     let pages = 1;
 
     let user = '<?= $this->user; ?>';
@@ -157,7 +157,7 @@
                         +'</li>'
                     ;
                 }
-            else
+                else
                 {
                     htmlPagination += ''
                         +'<li>'
@@ -376,10 +376,10 @@
             page = newPage;
         }
 
-        let search = $$('input[name="search"]').get('value');
+        let search = [document.querySelector('[name="search"]').value];
 
-        $$('#pal_result_legend').removeClass('collapsed');
-        $$('#pal_filter_legend').addClass('collapsed');
+        document.querySelector('#pal_result_legend').classList.remove('collapsed');
+        document.querySelector('#pal_filter_legend').classList.add('collapsed');
 
         if (   undefined === search[0]
             || '' === search[0]
@@ -397,17 +397,23 @@
 
     function search()
     {
-        $$('#form button.tl_submit[name="search"]').addEvent('click', function(e) {
-            e.stop();
+        document.querySelector('#form button.tl_submit[name="search"]').addEventListener(
+            'click',
+            function(e) {
+                e.preventDefault();
 
-            return searchUpdate(1);
-        });
+                return searchUpdate(1);
+            },
+            false
+        );
     }
 
     search();
 
     // todo
+    <?php if (isset($GLOBALS['TL_CONFIG']['page'])): ?>
     if (isCachedResult) searchUpdate(<?= $GLOBALS['TL_CONFIG']['page']; ?>);
+    <?php endif; ?>
 </script>
 
 <div><div>

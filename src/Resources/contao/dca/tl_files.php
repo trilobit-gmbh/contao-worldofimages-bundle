@@ -12,8 +12,10 @@ use Contao\Config;
 use Contao\System;
 use Trilobit\WorldofimagesBundle\FileUpload\Zone;
 
-foreach ($GLOBALS['TRILOBIT']['worldofimages']['provider']  as $provider) {
-    if ('' !== Config::get($provider.'ApiKey')) {
+$count = 0;
+
+foreach ($GLOBALS['TRILOBIT']['worldofimages']['provider'] as $provider) {
+    if (!empty(Config::get($provider.'ApiKey'))) {
         System::loadLanguageFile('tl_'.$provider);
 
         $GLOBALS['TL_DCA']['tl_files']['config']['onload_callback'][] = [Zone::class, $provider.'SetUploader'];
@@ -29,15 +31,19 @@ foreach ($GLOBALS['TRILOBIT']['worldofimages']['provider']  as $provider) {
             ]],
             $GLOBALS['TL_DCA']['tl_files']['list']['global_operations']
         );
+
+        ++$count;
     }
 }
 
-$GLOBALS['TL_DCA']['tl_files']['list']['global_operations'] = array_merge(
-    ['image_worlds' => [
-        'label' => 'Bilderwelt',
-        'href' => 'act=paste&mode=move',
-        'class' => 'header_imageworld',
-        'icon' => 'sizes.svg',
-    ]],
-    $GLOBALS['TL_DCA']['tl_files']['list']['global_operations']
-);
+if (1 <= $count) {
+    $GLOBALS['TL_DCA']['tl_files']['list']['global_operations'] = array_merge(
+        ['image_worlds' => [
+            'label' => 'Bilderwelt',
+            'href' => 'act=paste&mode=move',
+            'class' => 'header_imageworld',
+            'icon' => 'sizes.svg',
+        ]],
+        $GLOBALS['TL_DCA']['tl_files']['list']['global_operations']
+    );
+}
