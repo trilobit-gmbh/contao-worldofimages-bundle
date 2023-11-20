@@ -15,6 +15,7 @@ use Contao\BackendTemplate;
 use Contao\BackendUser;
 use Contao\Config;
 use Contao\Controller;
+use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\Database;
 use Contao\Dbafs;
@@ -161,8 +162,12 @@ class Zone extends Backend
                     : (
                         \array_key_exists('query', $result['__api__']['parameter'])
                             ? $result['__api__']['parameter']['query']
-                            : ''
-                )
+                            : (
+                                \array_key_exists('tags', $result['__api__']['parameter'])
+                                    ? $result['__api__']['parameter']['tags']
+                                    : ''
+                            )
+                    )
             );
 
             $page = \array_key_exists('page', $result['__api__']['parameter'])
@@ -434,6 +439,7 @@ class Zone extends Backend
                         'title' => $info,
                         'alt' => $info.' | '
                             .'URL: '.$result['__meta__'][$id]['url'],
+                        'license' => $result['__meta__'][$id]['url'],
                     ],
                 ]);
                 $file->save();
@@ -451,8 +457,7 @@ class Zone extends Backend
             }
         }
 
-        System::getContainer()
-            ->get('session')
+        self::getSession()
             ->getBag('contao_backend')
             ->set('worldofimages', [
                 'q' => Input::post('search'),
@@ -481,8 +486,7 @@ class Zone extends Backend
         $cacheDir = $container->getParameter('kernel.cache_dir');
         $rootDir = $container->getParameter('kernel.project_dir');
 
-        $session = System::getContainer()
-            ->get('session')
+        $session = self::getSession()
             ->getBag('contao_backend')
             ->get('worldofimages')
         ;
@@ -587,8 +591,7 @@ class Zone extends Backend
             }
         }
 
-        System::getContainer()
-            ->get('session')
+        self::getSession()
             ->getBag('contao_backend')
             ->set('worldofimages', [])
         ;
@@ -783,5 +786,22 @@ class Zone extends Backend
         $response->setData($result);
         $response->send();
         exit();
+    }
+
+    protected static function getSession()
+    {
+        $version = (method_exists(ContaoCoreBundle::class, 'getVersion') ? ContaoCoreBundle::getVersion() : VERSION);
+
+        if (version_compare($version, '4.9', '>')) {
+            return System::getContainer()
+                ->get('request_stack')
+                ->getCurrentRequest()
+                ->getSession()
+                ;
+        }
+
+        return System::getContainer()
+            ->get('session')
+            ;
     }
 }
