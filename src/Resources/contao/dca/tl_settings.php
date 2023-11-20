@@ -9,7 +9,6 @@ declare(strict_types=1);
  */
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use Contao\System;
 use Trilobit\WorldofimagesBundle\DataProvider\Configuration\ConfigurationProvider;
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['pixabayApiKey'] = [

@@ -4,10 +4,10 @@
 document.addEventListener("DOMContentLoaded", function() {
     let trigger = document.querySelector('.header_imageworld');
 
-    if(null === trigger) {
-		return;
-	}
-    
+    if (null === trigger) {
+        return;
+    }
+
     trigger.classList.add('submenu');
     trigger.removeAttribute('href');
 

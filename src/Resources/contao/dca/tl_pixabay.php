@@ -8,7 +8,6 @@ declare(strict_types=1);
  * @license    LGPL-3.0-or-later
  */
 
-use Contao\System;
 use Trilobit\WorldofimagesBundle\DataProvider\Configuration\ConfigurationProvider;
 
 /* todo: make complete */
@@ -27,6 +26,7 @@ $GLOBALS['TL_DCA']['tl_pixabay'] = [
         'pixabay_image_type' => [
             'inputType' => 'select',
             'options_callback' => [ConfigurationProvider::class, 'pixabayGetImageType'],
+            'load_callback' => [ConfigurationProvider::class, 'getValue'],
             'reference' => &$GLOBALS['TL_LANG']['tl_pixabay']['options']['image_type'],
             'eval' => ['chosen' => true, 'includeBlankOption' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(128) NOT NULL default ''",

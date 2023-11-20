@@ -15,6 +15,7 @@ use Contao\BackendTemplate;
 use Contao\BackendUser;
 use Contao\Config;
 use Contao\Controller;
+use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\Database;
 use Contao\Dbafs;
@@ -149,27 +150,39 @@ class Zone extends Backend
         $result = self::handleCache($provider);
 
         $query = '';
+        $page = 1;
         $cachedResult = false;
 
         if (!empty($result)) {
             $cachedResult = true;
+
             $query = (
-                \array_key_exists('q', $result['__api__']['parameter']['q'])
+                \array_key_exists('q', $result['__api__']['parameter'])
                     ? $result['__api__']['parameter']['q']
                     : (
-                        \array_key_exists('q', $result['__api__']['parameter']['query'])
+                        \array_key_exists('query', $result['__api__']['parameter'])
                             ? $result['__api__']['parameter']['query']
-                            : ''
-                )
+                            : (
+                                \array_key_exists('tags', $result['__api__']['parameter'])
+                                    ? $result['__api__']['parameter']['tags']
+                                    : ''
+                            )
+                    )
             );
+
+            $page = \array_key_exists('page', $result['__api__']['parameter'])
+                ? $result['__api__']['parameter']['page']
+                : 1
+            ;
         }
 
-        self::handleConfigParameter($config, $result, $user);
+        self::handleConfigParameter($config, $result, $user, $provider);
 
         $template = new BackendTemplate('be_fileupload');
 
         $template->provider = $provider;
         $template->query = $query;
+        $template->page = $page;
         $template->language = $GLOBALS['TL_LANGUAGE'];
         $template->url = StringUtil::ampersand(Environment::get('script'), true).'/_trilobit/'.$provider;
         $template->queryKey = $config['query_key'];
@@ -426,6 +439,7 @@ class Zone extends Backend
                         'title' => $info,
                         'alt' => $info.' | '
                             .'URL: '.$result['__meta__'][$id]['url'],
+                        'license' => $result['__meta__'][$id]['url'],
                     ],
                 ]);
                 $file->save();
@@ -442,6 +456,15 @@ class Zone extends Backend
                 $uploaded[] = $targetFile;
             }
         }
+
+        self::getSession()
+            ->getBag('contao_backend')
+            ->set('worldofimages', [
+                'q' => Input::post('search'),
+                'page' => Input::post('page'),
+                'cache' => Input::post('tl_cache'),
+            ])
+        ;
 
         if (empty($uploaded)) {
             Message::addError($GLOBALS['TL_LANG']['ERR']['emptyUpload']);
@@ -463,9 +486,16 @@ class Zone extends Backend
         $cacheDir = $container->getParameter('kernel.cache_dir');
         $rootDir = $container->getParameter('kernel.project_dir');
 
+        $session = self::getSession()
+            ->getBag('contao_backend')
+            ->get('worldofimages')
+        ;
+
         $checksum = !empty($parameter)
             ? md5(implode('', $parameter))
-            : Input::post('tl_cache')
+            : (Input::post('tl_cache')
+                ?: $session['cache'] ?? ''
+            )
         ;
 
         $cacheFile = StringUtil::stripRootDir($cacheDir).'/trilobit/'.$provider.'_'.$checksum.'.json';
@@ -561,6 +591,11 @@ class Zone extends Backend
             }
         }
 
+        self::getSession()
+            ->getBag('contao_backend')
+            ->set('worldofimages', [])
+        ;
+
         return $result;
     }
 
@@ -595,27 +630,33 @@ class Zone extends Backend
         return $parameter;
     }
 
-    public static function handleConfigParameter($config, $result, $user): void
+    public static function handleConfigParameter($config, $result, $user, $provider): void
     {
+        $GLOBALS['TL_CONFIG']['page'] = 1;
+
         foreach ($config['api'] as $item) {
             $key = $item[0];
             $type = $item[1];
 
-            $GLOBALS['TL_CONFIG'][$key] = $user->{$key};
+            if (!empty($user->{$provider.'_'.$key})) {
+                $GLOBALS['TL_CONFIG'][$provider.'_'.$key] = $user->{$provider.'_'.$key};
+            }
 
             if (empty($result)) {
                 continue;
             }
 
             if (isset($result['__api__']['parameter'][$key])
-                && '' !== $result['__api__']['parameter'][$key]
+                && !empty($result['__api__']['parameter'][$key])
             ) {
-                if ('bool' === strtolower($type)) {
-                    $GLOBALS['TL_CONFIG'][$key] = 'true';
+                if ('page' === $key) {
+                    $GLOBALS['TL_CONFIG']['page'] = (int) $result['__api__']['parameter'][$key];
+                } elseif ('bool' === strtolower($type)) {
+                    $GLOBALS['TL_CONFIG'][$provider.'_'.$key] = 'true';
                 } elseif ('int' === strtolower($type)) {
-                    $GLOBALS['TL_CONFIG'][$key] = (int) Input::get($key);
+                    $GLOBALS['TL_CONFIG'][$provider.'_'.$key] = (int) $result['__api__']['parameter'][$key];
                 } else {
-                    $GLOBALS['TL_CONFIG'][$key] = Input::get($key);
+                    $GLOBALS['TL_CONFIG'][$provider.'_'.$key] = $result['__api__']['parameter'][$key];
                 }
             }
         }
@@ -706,17 +747,6 @@ class Zone extends Backend
                 break;
         }
 
-        /*
-        $url = $apiUrl.'?'.http_build_query($parameter);
-        if ('pixabay' === $provider) {
-            $url = $apiUrl.'?key='.$apiKey.'&'.http_build_query($parameter);
-        } elseif ('unsplash' === $provider) {
-            $url = $apiUrl.'search/photos/?client_id='.$apiKey.'&'.http_build_query($parameter);
-        } elseif ('flickr' === $provider) {
-            $url = $apiUrl.'?method=flickr.photos.search&api_key='.$apiKey.'&format=json&nojsoncallback=1&'.http_build_query($parameter);
-        }
-        */
-
         $url .= '&lang='.$GLOBALS['TL_LANGUAGE'];
         $url .= '&per_page='.floor(Config::get('resultsPerPage') / 4) * 4;
 
@@ -756,5 +786,22 @@ class Zone extends Backend
         $response->setData($result);
         $response->send();
         exit();
+    }
+
+    protected static function getSession()
+    {
+        $version = (method_exists(ContaoCoreBundle::class, 'getVersion') ? ContaoCoreBundle::getVersion() : VERSION);
+
+        if (version_compare($version, '4.9', '>')) {
+            return System::getContainer()
+                ->get('request_stack')
+                ->getCurrentRequest()
+                ->getSession()
+                ;
+        }
+
+        return System::getContainer()
+            ->get('session')
+            ;
     }
 }
