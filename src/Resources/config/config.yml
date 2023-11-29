@@ -216,9 +216,11 @@ trilobit:
                 - per_page
                 - int
         search:
+            -
             - tags
             - text
         tag_mode:
+            -
             - OR
             - AND
         sort:
