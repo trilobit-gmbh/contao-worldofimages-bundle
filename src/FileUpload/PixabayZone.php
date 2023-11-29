@@ -17,11 +17,7 @@ class PixabayZone extends FileUpload
 {
     public function uploadTo($targetDir): array
     {
-        $uploaded = (new Zone())->uploadTo('pixabay', $targetDir, $this);
-
-        foreach ($uploaded as $value) {
-            $this->resizeUploadedImage($value);
-        }
+        $uploaded = (new Zone())->upload('pixabay', $targetDir, $this);
 
         $this->blnHasError = false;
 
@@ -35,6 +31,6 @@ class PixabayZone extends FileUpload
     {
         $this->import(BackendUser::class, 'User');
 
-        return (new Zone())->generateMarkup('pixabay', $this->User);
+        return (new Zone())->markup('pixabay', $this->User);
     }
 }

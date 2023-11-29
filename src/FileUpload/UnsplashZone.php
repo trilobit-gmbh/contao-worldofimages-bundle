@@ -17,11 +17,7 @@ class UnsplashZone extends FileUpload
 {
     public function uploadTo($targetDir): array
     {
-        $uploaded = (new Zone())->uploadTo('unsplash', $targetDir, $this);
-
-        foreach ($uploaded as $value) {
-            $this->resizeUploadedImage($value);
-        }
+        $uploaded = (new Zone())->upload('unsplash', $targetDir, $this);
 
         $this->blnHasError = false;
 
@@ -35,6 +31,6 @@ class UnsplashZone extends FileUpload
     {
         $this->import(BackendUser::class, 'User');
 
-        return (new Zone())->generateMarkup('unsplash', $this->User);
+        return (new Zone())->markup('unsplash', $this->User);
     }
 }
