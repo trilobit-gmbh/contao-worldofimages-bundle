@@ -23,6 +23,7 @@ use Contao\DC_File;
 use Contao\Environment;
 use Contao\File;
 use Contao\Files;
+use Contao\FileUpload;
 use Contao\Input;
 use Contao\Message;
 use Contao\StringUtil;
@@ -32,7 +33,7 @@ use Psr\Log\LogLevel;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class Zone extends Backend
+class Zone extends FileUpload
 {
     public static function generateFilterPalette($provider)
     {
@@ -139,7 +140,7 @@ class Zone extends Backend
      *
      * @throws \Exception
      */
-    public function generateMarkup($provider, $user): string
+    public function markup($provider, $user): string
     {
         System::loadLanguageFile('tl_'.$provider);
         Controller::loadDataContainer('tl_'.$provider);
@@ -247,7 +248,7 @@ class Zone extends Backend
      *
      * @throws \Exception
      */
-    public function uploadTo($provider, $targetDir, $zone): array
+    public function upload($provider, $targetDir, $zone): array
     {
         $container = System::getContainer();
         $rootDir = $container->getParameter('kernel.project_dir');
@@ -271,7 +272,12 @@ class Zone extends Backend
             throw new \InvalidArgumentException('Invalid target path '.$targetDir);
         }
 
+        if (empty(Input::post('tl_imageIds'))) {
+            return [];
+        }
+
         $source = true;
+
         $ids = array_map(
             static function($item) { return (string) $item; },
             Input::post('tl_imageIds')
@@ -426,8 +432,10 @@ class Zone extends Backend
 
             // Set CHMOD and resize if neccessary
             if ($zone->Files->rename($tmpFile, $targetFile)) {
+                // Chmod
                 $zone->Files->chmod($targetFile, $defaultFileChmod);
 
+                // Meta information
                 $info = ucfirst($provider).' | '
                     .'ID: '.$id.' | '
                     .(!empty($result['__meta__'][$id]['tags']) ? 'Tags: '.$result['__meta__'][$id]['tags'].' | ' : '')
@@ -443,6 +451,9 @@ class Zone extends Backend
                     ],
                 ]);
                 $file->save();
+
+                // resize
+                $this->resizeUploadedImage($targetFile);
 
                 // Notify the user
                 Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['MSC']['fileUploaded'], $targetFile));

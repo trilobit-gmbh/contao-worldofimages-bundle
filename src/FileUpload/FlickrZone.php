@@ -17,11 +17,7 @@ class FlickrZone extends FileUpload
 {
     public function uploadTo($targetDir): array
     {
-        $uploaded = (new Zone())->uploadTo('flickr', $targetDir, $this);
-
-        foreach ($uploaded as $value) {
-            $this->resizeUploadedImage($value);
-        }
+        $uploaded = (new Zone())->upload('flickr', $targetDir, $this);
 
         $this->blnHasError = false;
 
@@ -35,6 +31,6 @@ class FlickrZone extends FileUpload
     {
         $this->import(BackendUser::class, 'User');
 
-        return (new Zone())->generateMarkup('flickr', $this->User);
+        return (new Zone())->markup('flickr', $this->User);
     }
 }
