@@ -14,7 +14,7 @@ $GLOBALS['TL_LANG']['MSC']['unsplash']['providerLink'] = '<figure><img src="bund
 $GLOBALS['TL_LANG']['MSC']['unsplash']['hint'] = '<p>Fotos zur Verfügung gestellt von <a href="https://unsplash.com/" target="_blank" rel="noopener noreferrer"><u>Unsplash</u></a>.</p>'
     .'<p><strong>Richtlinien</strong></p>'
     .'<ul>'
-    .'<li>Standardmäßig ist die API beschränkt auf 5.000 Abfragen pro Stunde.</li>'
+    .'<li>Standardmäßig ist die API beschränkt auf 50 Abfragen pro Stunde.</li>'
     .'<li>Nennen Sie immer unseren Fotografen wenn möglich (z.B. "Foto von John Doe auf Unsplash" mit einem Link zur Fotoseite auf Unsplash).</li>'
     .'</ul>'
     .'<br>'
@@ -22,7 +22,7 @@ $GLOBALS['TL_LANG']['MSC']['unsplash']['hint'] = '<p>Fotos zur Verfügung gestel
     .'<p>Beachten Sie bitte die <strong>Unsplash <a href="https://unsplash.com/terms" target="_blank" rel="noopener noreferrer"><u>Nutzungsbedingungen</u></a></strong>!</p>'
 ;
 $GLOBALS['TL_LANG']['MSC']['unsplash']['resultCount'] = 'Treffer';
-$GLOBALS['TL_LANG']['MSC']['unsplash']['cachedResult'] = 'Cache-Ergebnis; Um die Pixabay-API für alle schnell zu halten, werden Anfragen 24 Stunden zwischengespeichert.';
+$GLOBALS['TL_LANG']['MSC']['unsplash']['cachedResult'] = 'Cache-Ergebnis; Um die Unsplash-API für alle schnell zu halten, werden Anfragen 24 Stunden zwischengespeichert.';
 
 $GLOBALS['TL_LANG']['tl_unsplash']['unsplash_legend'] = 'Unsplash-Einstellungen';
 $GLOBALS['TL_LANG']['tl_unsplash']['search_legend'] = 'Suche';
