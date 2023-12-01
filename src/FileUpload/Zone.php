@@ -496,7 +496,6 @@ class Zone extends FileUpload
                 $provider.'ImageSource'
             );
 
-
             $zone->reload();
         }
 
