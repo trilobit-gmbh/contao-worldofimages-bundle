@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Trilobit\WorldofimagesBundle\FileUpload;
 
-use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\BackendUser;
 use Contao\Config;
@@ -265,6 +264,7 @@ class Zone extends FileUpload
 
         if (empty($result)) {
             Message::addError($GLOBALS['TL_LANG']['ERR']['emptyUpload']);
+
             $zone->reload();
         }
 
@@ -273,7 +273,9 @@ class Zone extends FileUpload
         }
 
         if (empty(Input::post('tl_imageIds'))) {
-            return [];
+            Message::addError($GLOBALS['TL_LANG']['ERR']['emptyUpload']);
+
+            $zone->reload();
         }
 
         $source = true;
@@ -345,8 +347,6 @@ class Zone extends FileUpload
                 $pathinfoPageUrl['basename'] = StringUtil::sanitizeFileName($pathinfoPageUrl['basename']);
             } catch (\InvalidArgumentException $e) {
                 Message::addError($GLOBALS['TL_LANG']['ERR']['filename']);
-                $zone->blnHasError = true;
-
                 continue;
             }
 
@@ -360,13 +360,20 @@ class Zone extends FileUpload
         }
 
         if (!$source) {
-            Message::addError(sprintf($GLOBALS['TL_LANG']['ERR']['imageSourceNotAvailable'], $imageSource));
+            Message::addError(
+                sprintf(
+                    $GLOBALS['TL_LANG']['ERR']['imageSourceNotAvailable'],
+                    $imageSource
+                )
+            );
 
             $logger->log(
                 LogLevel::ERROR,
                 ucfirst($provider).' image source"'.$imageSource.'" not available; extended "webformatURL" used instead',
                 ['contao' => new ContaoContext(__METHOD__, strtoupper($provider).'_SEARCH')]
             );
+
+            $zone->reload();
         }
 
         // Upload the files
@@ -393,11 +400,6 @@ class Zone extends FileUpload
                 continue;
             }
 
-            $targetFile = $result['__upload__'][$id]['files']['contao'];
-
-            // file handle
-            $fileHandle = fopen($rootDir.'/'.$tmpFile, 'w');
-
             // get file: curl
             $objCurl = curl_init($sourceFile);
 
@@ -419,16 +421,22 @@ class Zone extends FileUpload
             $stream = curl_exec($objCurl);
             $returnCode = curl_getinfo($objCurl, \CURLINFO_HTTP_CODE);
 
+            curl_close($objCurl);
+
             // write
             if (200 === $returnCode) {
+                // file handle
+                $fileHandle = fopen($rootDir.'/'.$tmpFile, 'w');
+
                 fwrite($fileHandle, $stream);
+
                 fclose($fileHandle);
             } else {
                 Message::addError('#'.$returnCode.' '.$GLOBALS['TL_LANG']['MSC']['accountError'].' ['.$sourceFile.']');
                 continue;
             }
 
-            curl_close($objCurl);
+            $targetFile = $result['__upload__'][$id]['files']['contao'];
 
             // Set CHMOD and resize if neccessary
             if ($zone->Files->rename($tmpFile, $targetFile)) {
@@ -456,10 +464,15 @@ class Zone extends FileUpload
                 $this->resizeUploadedImage($targetFile);
 
                 // Notify the user
-                Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['MSC']['fileUploaded'], $targetFile));
+                Message::addConfirmation(
+                    sprintf(
+                        $GLOBALS['TL_LANG']['MSC']['fileUploaded'],
+                        $targetFile
+                    )
+                );
 
                 $logger->log(
-                    LogLevel::ERROR,
+                    LogLevel::INFO,
                     ucfirst($provider).' image source"'.$targetFile.'" has been uploaded',
                     ['contao' => new ContaoContext(__METHOD__, 'TL_FILES')]
                 );
@@ -478,7 +491,11 @@ class Zone extends FileUpload
         ;
 
         if (empty($uploaded)) {
-            Message::addError($GLOBALS['TL_LANG']['ERR']['emptyUpload']);
+            Message::addError(
+                $GLOBALS['TL_LANG']['ERR']['generalUpload'],
+                $provider.'ImageSource'
+            );
+
             $zone->reload();
         }
 
