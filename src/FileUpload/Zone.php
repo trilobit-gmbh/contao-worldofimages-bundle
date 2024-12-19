@@ -184,7 +184,7 @@ class Zone extends FileUpload
         $template->query = $query;
         $template->page = $page;
         $template->language = $GLOBALS['TL_LANGUAGE'];
-        $template->url = StringUtil::ampersand(Environment::get('script'), true).'/_trilobit/'.$provider;
+        $template->url = '/_trilobit/'.$provider;
         $template->queryKey = $config['query_key'];
 
         $template->queryParameter = '';
