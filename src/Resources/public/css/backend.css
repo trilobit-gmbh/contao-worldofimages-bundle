@@ -38,6 +38,7 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity .3s ease,visibility .3s ease;
+    list-style-type: none;
 }
 
 .header_imageworld.submenu ul.menu_level_1:before {

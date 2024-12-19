@@ -378,9 +378,6 @@
 
         let search = [document.querySelector('[name="search"]').value];
 
-        document.querySelector('#pal_result_legend').classList.remove('collapsed');
-        document.querySelector('#pal_filter_legend').classList.add('collapsed');
-
         if (   undefined === search[0]
             || '' === search[0]
         )
