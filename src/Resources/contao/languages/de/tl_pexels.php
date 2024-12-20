@@ -32,13 +32,6 @@ $GLOBALS['TL_LANG']['tl_pexels']['search_legend'] = 'Suche';
 $GLOBALS['TL_LANG']['tl_pexels']['filter_legend'] = 'Filter';
 $GLOBALS['TL_LANG']['tl_pexels']['result_legend'] = 'Suchergebnisse';
 
-$GLOBALS['TL_LANG']['tl_pexels']['queryTitle'] = 'Suchbegriffe';
-$GLOBALS['TL_LANG']['tl_pexels']['queryHelp'] = 'Bitte geben sie hier ihren Suchbegriff bzw. ihre Suchbegriffe ein.';
-
-$GLOBALS['TL_LANG']['tl_pexels']['searchTitle'] = '';
-$GLOBALS['TL_LANG']['tl_pexels']['searchButton'] = 'Suche starten';
-$GLOBALS['TL_LANG']['tl_pexels']['searchHelp'] = '';
-
 $GLOBALS['TL_LANG']['tl_pexels']['pexels_orientation'][0] = 'Ausrichtung';
 $GLOBALS['TL_LANG']['tl_pexels']['pexels_orientation'][1] = 'Ausrichtung.';
 $GLOBALS['TL_LANG']['tl_pexels']['pexels_color'][0] = 'Farben';

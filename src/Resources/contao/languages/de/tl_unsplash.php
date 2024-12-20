@@ -29,13 +29,6 @@ $GLOBALS['TL_LANG']['tl_unsplash']['search_legend'] = 'Suche';
 $GLOBALS['TL_LANG']['tl_unsplash']['filter_legend'] = 'Filter';
 $GLOBALS['TL_LANG']['tl_unsplash']['result_legend'] = 'Suchergebnisse';
 
-$GLOBALS['TL_LANG']['tl_unsplash']['queryTitle'] = 'Suchbegriffe';
-$GLOBALS['TL_LANG']['tl_unsplash']['queryHelp'] = 'Bitte geben sie hier ihren Suchbegriff bzw. ihre Suchbegriffe ein.';
-
-$GLOBALS['TL_LANG']['tl_unsplash']['searchTitle'] = '';
-$GLOBALS['TL_LANG']['tl_unsplash']['searchButton'] = 'Suche starten';
-$GLOBALS['TL_LANG']['tl_unsplash']['searchHelp'] = '';
-
 $GLOBALS['TL_LANG']['tl_unsplash']['unsplash_order_by'][0] = 'Sortierung';
 $GLOBALS['TL_LANG']['tl_unsplash']['unsplash_order_by'][1] = 'Sortierung.';
 $GLOBALS['TL_LANG']['tl_unsplash']['unsplash_orientation'][0] = 'Ausrichtung';

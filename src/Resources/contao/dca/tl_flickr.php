@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 use Contao\System;
 use Trilobit\WorldofimagesBundle\DataProvider\Configuration\ConfigurationProvider;
+use Trilobit\WorldofimagesBundle\FileUpload\Zone;
 
 //System::loadLanguageFile('tl_pexels');
 
@@ -19,7 +20,9 @@ $GLOBALS['TL_DCA']['tl_flickr'] = [
         'closed' => true,
     ],
     'palettes' => [
-        'default' => '{filter_legend},flickr_search,flickr_tag_mode,flickr_safe_search,flickr_sort,flickr_content_type,flickr_min_upload_date,flickr_max_upload_date,flickr_min_taken_date,flickr_max_taken_date,flickr_contacts,flickr_group_id,flickr_has_geo,flickr_geo_context,flickr_lat,flickr_lon',
+        'default' => '{search_legend},searchQuery,searchSubmit;'
+            .'{filter_legend},flickr_search,flickr_tag_mode,flickr_safe_search,flickr_sort,flickr_content_type,flickr_min_upload_date,flickr_max_upload_date,flickr_min_taken_date,flickr_max_taken_date,flickr_contacts,flickr_group_id,flickr_has_geo,flickr_geo_context,flickr_lat,flickr_lon;'
+            .'{result_legend},images,pagination',
     ],
     'fields' => [
         'flickr_search' => [
@@ -108,6 +111,27 @@ $GLOBALS['TL_DCA']['tl_flickr'] = [
             'inputType' => 'text',
             'eval' => ['tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
+        ],
+
+        'searchQuery' => [
+            'label' => &$GLOBALS['TL_LANG']['MSC']['woi_query'],
+            'inputType' => 'text',
+            'eval' => ['tl_class' => 'w50'],
+        ],
+        'searchSubmit' => [
+            'label' => &$GLOBALS['TL_LANG']['MSC']['woi_search'],
+            'inputType' => 'text',
+            'input_field_callback' => [Zone::class, 'onSearchSubmitField'],
+            'eval' => ['tl_class' => 'w50'],
+        ],
+        'images' => [
+            'inputType' => 'text',
+            'input_field_callback' => [Zone::class, 'onImagesField'],
+            'eval' => ['tl_class' => 'widget clr'],
+        ],
+        'pagination' => [
+            'inputType' => 'text',
+            'input_field_callback' => [Zone::class, 'onPaginationField'],
         ],
     ],
 ];

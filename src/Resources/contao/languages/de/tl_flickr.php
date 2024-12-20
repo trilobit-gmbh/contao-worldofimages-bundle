@@ -30,13 +30,6 @@ $GLOBALS['TL_LANG']['tl_flickr']['search_legend'] = 'Suche';
 $GLOBALS['TL_LANG']['tl_flickr']['filter_legend'] = 'Filter';
 $GLOBALS['TL_LANG']['tl_flickr']['result_legend'] = 'Suchergebnisse';
 
-$GLOBALS['TL_LANG']['tl_flickr']['queryTitle'] = 'Suchbegriffe';
-$GLOBALS['TL_LANG']['tl_flickr']['queryHelp'] = 'Bitte geben sie hier ihren Suchbegriff bzw. ihre Suchbegriffe ein.';
-
-$GLOBALS['TL_LANG']['tl_flickr']['searchTitle'] = '';
-$GLOBALS['TL_LANG']['tl_flickr']['searchButton'] = 'Suche starten';
-$GLOBALS['TL_LANG']['tl_flickr']['searchHelp'] = '';
-
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_search'][0] = 'Such-Modus';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_search'][1] = 'Tag- oder Text-Suche.';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_tag_mode'][0] = 'Tag-Modus';
