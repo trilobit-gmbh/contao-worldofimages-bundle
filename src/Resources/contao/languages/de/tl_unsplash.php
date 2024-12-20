@@ -55,7 +55,7 @@ $GLOBALS['TL_LANG']['tl_unsplash']['options']['content_filter'] = [
 ];
 
 $GLOBALS['TL_LANG']['tl_unsplash']['options']['color'] = [
-    'black_and_white' => 'Rot',
+    'black_and_white' => 'Schwarz-Weiß',
     'black' => 'Schwarz',
     'white' => 'Weiß',
     'yellow' => 'Gelb',

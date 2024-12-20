@@ -21,56 +21,49 @@ $GLOBALS['TL_LANG']['MSC']['unsplash']['hint'] = '<p>Fotos zur Verfügung gestel
     .'<p>API-Dokumentation: <a href="https://unsplash.com/developers" target="_blank" rel="noopener noreferrer"><u>unsplash.com/developers</u></a></p>'
     .'<p>Beachten Sie bitte die <strong>Unsplash <a href="https://unsplash.com/terms" target="_blank" rel="noopener noreferrer"><u>Nutzungsbedingungen</u></a></strong>!</p>'
 ;
-$GLOBALS['TL_LANG']['MSC']['unsplash']['resultCount'] = 'Treffer';
-$GLOBALS['TL_LANG']['MSC']['unsplash']['cachedResult'] = 'Cache-Ergebnis; Um die Unsplash-API für alle schnell zu halten, werden Anfragen 24 Stunden zwischengespeichert.';
+$GLOBALS['TL_LANG']['MSC']['unsplash']['resultCount'] = 'Hits';
+$GLOBALS['TL_LANG']['MSC']['unsplash']['cachedResult'] = 'Cache result; To keep the Unsplash API fast for everyone, requests are cached for 24 hours.';
 
-$GLOBALS['TL_LANG']['tl_unsplash']['unsplash_legend'] = 'Unsplash-Einstellungen';
-$GLOBALS['TL_LANG']['tl_unsplash']['search_legend'] = 'Suche';
+$GLOBALS['TL_LANG']['tl_unsplash']['unsplash_legend'] = 'Unsplash settings';
+$GLOBALS['TL_LANG']['tl_unsplash']['search_legend'] = 'Search';
 $GLOBALS['TL_LANG']['tl_unsplash']['filter_legend'] = 'Filter';
-$GLOBALS['TL_LANG']['tl_unsplash']['result_legend'] = 'Suchergebnisse';
+$GLOBALS['TL_LANG']['tl_unsplash']['result_legend'] = 'Search results';
 
-$GLOBALS['TL_LANG']['tl_unsplash']['queryTitle'] = 'Suchbegriffe';
-$GLOBALS['TL_LANG']['tl_unsplash']['queryHelp'] = 'Bitte geben sie hier ihren Suchbegriff bzw. ihre Suchbegriffe ein.';
-
-$GLOBALS['TL_LANG']['tl_unsplash']['searchTitle'] = '';
-$GLOBALS['TL_LANG']['tl_unsplash']['searchButton'] = 'Suche starten';
-$GLOBALS['TL_LANG']['tl_unsplash']['searchHelp'] = '';
-
-$GLOBALS['TL_LANG']['tl_unsplash']['unsplash_order_by'][0] = 'Sortierung';
-$GLOBALS['TL_LANG']['tl_unsplash']['unsplash_order_by'][1] = 'Sortierung.';
-$GLOBALS['TL_LANG']['tl_unsplash']['unsplash_orientation'][0] = 'Ausrichtung';
-$GLOBALS['TL_LANG']['tl_unsplash']['unsplash_orientation'][1] = 'Ausrichtung.';
-$GLOBALS['TL_LANG']['tl_unsplash']['unsplash_color'][0] = 'Farben';
-$GLOBALS['TL_LANG']['tl_unsplash']['unsplash_color'][1] = 'Farben.';
+$GLOBALS['TL_LANG']['tl_unsplash']['unsplash_order_by'][0] = 'Order by';
+$GLOBALS['TL_LANG']['tl_unsplash']['unsplash_order_by'][1] = 'Order by.';
+$GLOBALS['TL_LANG']['tl_unsplash']['unsplash_orientation'][0] = 'Orientation';
+$GLOBALS['TL_LANG']['tl_unsplash']['unsplash_orientation'][1] = 'Orientation.';
+$GLOBALS['TL_LANG']['tl_unsplash']['unsplash_color'][0] = 'Colors';
+$GLOBALS['TL_LANG']['tl_unsplash']['unsplash_color'][1] = 'Colors.';
 $GLOBALS['TL_LANG']['tl_unsplash']['unsplash_content_filter'][0] = 'Filter';
 $GLOBALS['TL_LANG']['tl_unsplash']['unsplash_content_filter'][1] = 'Filter.';
 
 $GLOBALS['TL_LANG']['tl_unsplash']['options']['orientation'] = [
-    'landscape' => 'Horizontal',
-    'portrait' => 'Vertikal',
-    'squarish' => 'Quadratisch',
+    'landscape' => 'Landscape',
+    'portrait' => 'Portrait',
+    'squarish' => 'Squarish',
 ];
 
 $GLOBALS['TL_LANG']['tl_unsplash']['options']['order_by'] = [
     'relevant' => 'Relevant',
-    'latest' => 'Neu',
+    'latest' => 'Latest',
 ];
 
 $GLOBALS['TL_LANG']['tl_unsplash']['options']['content_filter'] = [
-    'low' => 'Sicher (Keine Bilder, die Nacktheit oder Gewalt enthalten)',
-    'high' => 'Eingeschränkt (Inhalte weiter entfernen, die für jüngere Zielgruppen möglicherweise ungeeignet sind)',
+    'low' => 'Safe (No images containing nudity or violence)',
+    'high' => 'Restricted (further remove content that may be inappropriate for younger audiences)',
 ];
 
 $GLOBALS['TL_LANG']['tl_unsplash']['options']['color'] = [
-    'black_and_white' => 'Rot',
-    'black' => 'Schwarz',
-    'white' => 'Weiß',
-    'yellow' => 'Gelb',
-    'orange' => 'Orange',
-    'red' => 'Rot',
-    'purple' => 'Lila',
+    'black_and_white' => 'Black and white',
+    'black' => 'Black',
+    'white' => 'White',
+    'yellow' => 'Yellow',
+    'orange' => 'orange',
+    'red' => 'Red',
+    'purple' => 'Purple',
     'magenta' => 'Magenta',
-    'green' => 'Grün',
-    'teal' => 'Blaugrün',
-    'blue' => 'Blau',
+    'green' => 'Green',
+    'teal' => 'Teal',
+    'blue' => 'Blue',
 ];

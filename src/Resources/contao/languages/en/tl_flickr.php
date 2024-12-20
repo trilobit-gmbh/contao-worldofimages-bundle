@@ -22,24 +22,24 @@ $GLOBALS['TL_LANG']['MSC']['flickr']['hint'] = '<p>Fotos zur Verfügung gestellt
     .'<p>API-Dokumentation: <a href="https://www.flickr.com/services/api/" target="_blank" rel="noopener noreferrer"><u>www.flickr.com/services/api/</u></a></p>'
     .'<p>Beachten Sie bitte die <strong>Flickr <a href="https://www.flickr.com/help/terms" target="_blank" rel="noopener noreferrer"><u>Nutzungsbedingungen</u></a></strong>!</p>'
 ;
-$GLOBALS['TL_LANG']['MSC']['flickr']['resultCount'] = 'Treffer';
-$GLOBALS['TL_LANG']['MSC']['flickr']['cachedResult'] = 'Cache-Ergebnis; Um die Flickr-API für alle schnell zu halten, werden Anfragen 24 Stunden zwischengespeichert.';
+$GLOBALS['TL_LANG']['MSC']['flickr']['resultCount'] = 'Hits';
+$GLOBALS['TL_LANG']['MSC']['flickr']['cachedResult'] = 'Cache result; To keep the Flickr API fast for everyone, requests are cached for 24 hours.';
 
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_legend'] = 'Flickr-Einstellungen';
-$GLOBALS['TL_LANG']['tl_flickr']['search_legend'] = 'Suche';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_legend'] = 'Flickr settings';
+$GLOBALS['TL_LANG']['tl_flickr']['search_legend'] = 'Search';
 $GLOBALS['TL_LANG']['tl_flickr']['filter_legend'] = 'Filter';
-$GLOBALS['TL_LANG']['tl_flickr']['result_legend'] = 'Suchergebnisse';
+$GLOBALS['TL_LANG']['tl_flickr']['result_legend'] = 'Search results';
 
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_search'][0] = 'Such-Modus';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_search'][0] = 'Search mode';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_search'][1] = 'Tag- oder Text-Suche.';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_tag_mode'][0] = 'Tag-Modus';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_tag_mode'][0] = 'Tag mode';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_tag_mode'][1] = 'Entweder „beliebig“ für eine ODER-Kombination von Tags oder „alle“ für eine UND-Kombination. Standardmäßig „beliebig“, wenn nicht anders angegeben.';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_safe_search'][0] = 'Sichere Suche';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_safe_search'][1] = 'Sichere Suche.';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_sort'][0] = 'Sortierung';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_sort'][1] = 'Sortierung.';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_content_type'][0] = 'Inhaltstyp';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_content_type'][1] = 'Inhaltstyp.';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_safe_search'][0] = 'Safe search';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_safe_search'][1] = 'Safe search.';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_sort'][0] = 'Order by';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_sort'][1] = 'Order by.';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_content_type'][0] = 'Content type';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_content_type'][1] = 'Content type.';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_min_upload_date'][0] = 'Minimales Uploaddatum';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_min_upload_date'][1] = 'Minimales Uploaddatum.';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_max_upload_date'][0] = 'Maximales Uploaddatum';
@@ -48,9 +48,9 @@ $GLOBALS['TL_LANG']['tl_flickr']['flickr_min_taken_date'][0] = 'Minimales Aufnah
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_min_taken_date'][1] = 'Minimales Aufnahmedatum.';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_max_taken_date'][0] = 'Maximales Aufnahmedatum';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_max_taken_date'][1] = 'Maximales Aufnahmedatum.';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_contacts'][0] = 'Kontakte';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_contacts'][0] = 'Contacts';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_contacts'][1] = 'Durchsuchen Sie Ihre Kontakte.';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_group_id'][0] = 'Gruppen-ID';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_group_id'][0] = 'Group ID';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_group_id'][1] = 'ID einer Gruppe, deren Pool zu durchsuchen ist.';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_has_geo'][0] = 'Fotos mit Geotags';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_has_geo'][1] = 'Fotos, das mit Geotags versehen wurde.';
@@ -62,17 +62,17 @@ $GLOBALS['TL_LANG']['tl_flickr']['flickr_lon'][0] = 'Longitude';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_lon'][1] = 'Longitude.';
 
 $GLOBALS['TL_LANG']['tl_flickr']['options']['tag_mode'] = [
-    'OR' => 'Beliebig',
-    'AND' => 'Alle',
+    'OR' => 'Any',
+    'AND' => 'All',
 ];
 
 $GLOBALS['TL_LANG']['tl_flickr']['options']['sort'] = [
-    'date-posted-asc' => 'Datum gepostet ↑',
-    'date-posted-desc' => 'Datum gepostet  ↓',
-    'date-taken-asc' => 'Aufnahmedatum ↑',
-    'date-taken-desc' => 'Aufnahmedatum  ↓',
-    'interestingness-desc' => 'Interessantheit  ↓',
-    'interestingness-asc' => 'Interessantheit ↑',
+    'date-posted-asc' => 'Date posted ↑',
+    'date-posted-desc' => 'Date posted  ↓',
+    'date-taken-asc' => 'Date taken ↑',
+    'date-taken-desc' => 'Date taken  ↓',
+    'interestingness-desc' => 'Interestingness  ↓',
+    'interestingness-asc' => 'Interestingness ↑',
     'relevance' => 'Relevanz',
 ];
 

@@ -24,36 +24,36 @@ $GLOBALS['TL_LANG']['MSC']['pexels']['hint'] = '<p>Fotos zur Verfügung gestellt
     .'<p>API-Dokumentation: <a href="https://www.pexels.com/api/documentation/" target="_blank" rel="noopener noreferrer"><u>www.pexels.com/api/documentation/</u></a></p>'
     .'<p>Beachten Sie bitte die <strong>Pexels <a href="https://www.pexels.com/photo-license/" target="_blank" rel="noopener noreferrer"><u>Nutzungsbedingungen</u></a></strong>!</p>'
 ;
-$GLOBALS['TL_LANG']['MSC']['pexels']['resultCount'] = 'Treffer';
-$GLOBALS['TL_LANG']['MSC']['pexels']['cachedResult'] = 'Cache-Ergebnis; Um die Pexels-API für alle schnell zu halten, werden Anfragen 24 Stunden zwischengespeichert.';
+$GLOBALS['TL_LANG']['MSC']['pexels']['resultCount'] = 'Hits';
+$GLOBALS['TL_LANG']['MSC']['pexels']['cachedResult'] = 'Cache result; To keep the Pexels API fast for everyone, requests are cached for 24 hours.';
 
-$GLOBALS['TL_LANG']['tl_pexels']['pexels_legend'] = 'Pexels-Einstellungen';
-$GLOBALS['TL_LANG']['tl_pexels']['search_legend'] = 'Suche';
+$GLOBALS['TL_LANG']['tl_pexels']['pexels_legend'] = 'Pexels settings';
+$GLOBALS['TL_LANG']['tl_pexels']['search_legend'] = 'Search';
 $GLOBALS['TL_LANG']['tl_pexels']['filter_legend'] = 'Filter';
-$GLOBALS['TL_LANG']['tl_pexels']['result_legend'] = 'Suchergebnisse';
+$GLOBALS['TL_LANG']['tl_pexels']['result_legend'] = 'Search results';
 
-$GLOBALS['TL_LANG']['tl_pexels']['pexels_orientation'][0] = 'Ausrichtung';
-$GLOBALS['TL_LANG']['tl_pexels']['pexels_orientation'][1] = 'Ausrichtung.';
-$GLOBALS['TL_LANG']['tl_pexels']['pexels_color'][0] = 'Farben';
-$GLOBALS['TL_LANG']['tl_pexels']['pexels_color'][1] = 'Farben.';
+$GLOBALS['TL_LANG']['tl_pexels']['pexels_orientation'][0] = 'Orientation';
+$GLOBALS['TL_LANG']['tl_pexels']['pexels_orientation'][1] = 'Orientation.';
+$GLOBALS['TL_LANG']['tl_pexels']['pexels_color'][0] = 'Colors';
+$GLOBALS['TL_LANG']['tl_pexels']['pexels_color'][1] = 'Colors.';
 
 $GLOBALS['TL_LANG']['tl_pexels']['options']['orientation'] = [
-    'landscape' => 'Horizontal',
-    'portrait' => 'Vertikal',
-    'squarish' => 'Quadratisch',
+    'landscape' => 'Landscape',
+    'portrait' => 'Portrait',
+    'squarish' => 'Squarish',
 ];
 
 $GLOBALS['TL_LANG']['tl_pexels']['options']['color'] = [
-    'red' => 'Rot',
+    'red' => 'Red',
     'orange' => 'Orange',
-    'yellow' => 'Gelb',
-    'green' => 'Grün',
-    'turquoise' => 'Türkis',
-    'blue' => 'Blau',
-    'violet' => 'Violett',
-    'pink' => 'Rosa',
-    'brown' => 'Braun',
-    'black' => 'Schwarz',
-    'gray' => 'Grau',
-    'white' => 'Weiß',
+    'yellow' => 'Yellow',
+    'green' => 'Green',
+    'turquoise' => 'Turquoise',
+    'blue' => 'Blue',
+    'violet' => 'Violet',
+    'pink' => 'Pink',
+    'brown' => 'Brown',
+    'black' => 'Black',
+    'gray' => 'Gray',
+    'white' => 'White',
 ];

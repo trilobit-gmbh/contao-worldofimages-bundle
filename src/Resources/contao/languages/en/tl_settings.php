@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @license    LGPL-3.0-or-later
  */
 
-$GLOBALS['TL_LANG']['tl_settings']['worldofimages_legend'] = 'Bilderwelten-Einstellungen';
+$GLOBALS['TL_LANG']['tl_settings']['worldofimages_legend'] = 'Bilderwelten settings';
 
 $GLOBALS['TL_LANG']['tl_settings']['pixabayApiKey'][0] = 'Pixabay API-Key';
 $GLOBALS['TL_LANG']['tl_settings']['pixabayApiKey'][1] = 'Hier können Sie Ihren Pixabay-API-Key eintragen.';
