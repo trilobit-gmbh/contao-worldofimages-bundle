@@ -31,13 +31,6 @@ $GLOBALS['TL_LANG']['tl_pixabay']['search_legend'] = 'Suche';
 $GLOBALS['TL_LANG']['tl_pixabay']['filter_legend'] = 'Filter';
 $GLOBALS['TL_LANG']['tl_pixabay']['result_legend'] = 'Suchergebnisse';
 
-$GLOBALS['TL_LANG']['tl_pixabay']['queryTitle'] = 'Suchbegriffe';
-$GLOBALS['TL_LANG']['tl_pixabay']['queryHelp'] = 'Bitte geben sie hier ihren Suchbegriff bzw. ihre Suchbegriffe ein.';
-
-$GLOBALS['TL_LANG']['tl_pixabay']['searchTitle'] = '';
-$GLOBALS['TL_LANG']['tl_pixabay']['searchButton'] = 'Suche starten';
-$GLOBALS['TL_LANG']['tl_pixabay']['searchHelp'] = '';
-
 $GLOBALS['TL_LANG']['tl_pixabay']['pixabay_image_type'][0] = 'Typ';
 $GLOBALS['TL_LANG']['tl_pixabay']['pixabay_image_type'][1] = 'Typ.';
 $GLOBALS['TL_LANG']['tl_pixabay']['pixabay_orientation'][0] = 'Ausrichtung';

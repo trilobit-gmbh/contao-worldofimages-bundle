@@ -16,10 +16,3 @@ $GLOBALS['TL_LANG']['MSC']['woi_query'][1] = 'Bitte geben sie hier ihren Suchbeg
 $GLOBALS['TL_LANG']['MSC']['woi_search'][0] = '';
 $GLOBALS['TL_LANG']['MSC']['woi_search'][1] = '';
 $GLOBALS['TL_LANG']['MSC']['woi_search'][2] = 'Suche starten';
-
-$GLOBALS['TL_LANG']['MSC']['queryTitle'] = 'Suchbegriffe';
-$GLOBALS['TL_LANG']['MSC']['queryHelp'] = 'Bitte geben sie hier ihren Suchbegriff bzw. ihre Suchbegriffe ein.';
-
-$GLOBALS['TL_LANG']['MSC']['searchTitle'] = '';
-$GLOBALS['TL_LANG']['MSC']['searchButton'] = 'Suche starten';
-$GLOBALS['TL_LANG']['MSC']['searchHelp'] = '';
