@@ -73,10 +73,10 @@ $GLOBALS['TL_DCA']['tl_flickr'] = [
             'eval' => ['chosen' => true, 'includeBlankOption' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
-        'flickr_content_type' => [
+        'flickr_content_types' => [
             'inputType' => 'select',
-            'options_callback' => [ConfigurationProvider::class, 'flickrGetContentType'],
-            'reference' => &$GLOBALS['TL_LANG']['tl_flickr']['options']['content_type'],
+            'options_callback' => [ConfigurationProvider::class, 'flickrGetContentTypes'],
+            'reference' => &$GLOBALS['TL_LANG']['tl_flickr']['options']['content_types'],
             'eval' => ['chosen' => true, 'includeBlankOption' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
