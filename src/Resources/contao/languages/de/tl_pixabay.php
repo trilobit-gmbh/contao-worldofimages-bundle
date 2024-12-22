@@ -16,7 +16,7 @@ $GLOBALS['TL_LANG']['MSC']['pixabay']['providerLink'] = '<figure><img src="bundl
 $GLOBALS['TL_LANG']['MSC']['pixabay']['hint'] = '<p>Fotos zur Verfügung gestellt von <a href="https://pixabay.com" target="_blank" rel="noopener noreferrer"><u>Pixabay</u></a>.</p>'
     .'<p><strong>Richtlinien</strong></p>'
     .'<ul>'
-    .'<li>Standardmäßig ist die API beschränkt auf 5.000 Anfragen pro Stunde (Anfragen sind an den API-Key geknüpft) und</li>'
+    .'<li>Standardmäßig ist die API beschränkt auf 6.000 Anfragen pro Stunde (Anfragen sind an den API-Key geknüpft) und</li>'
     .'<li>maximal 500 Bilder pro Abfrage.</li>'
     .'</ul>'
     .'<br>'

@@ -14,8 +14,7 @@ $GLOBALS['TL_LANG']['MSC']['flickr']['providerLink'] = '<figure><img src="bundle
 $GLOBALS['TL_LANG']['MSC']['flickr']['hint'] = '<p>Fotos zur Verfügung gestellt von <a href="https://www.flickr.com/" target="_blank" rel="noopener noreferrer"><u>Flickr</u></a>.</p>'
     .'<p><strong>Richtlinien</strong></p>'
     .'<ul>'
-    .'<li>Standardmäßig ist die API beschränkt auf 200 Abfragen pro Stunde und</li>'
-    .'<li>20.000 Abfragen pro Monat.</li>'
+    .'<li>Standardmäßig ist die API beschränkt auf 3.600 Abfragen pro Stunde.</li>'
     .'<li>Nennen Sie immer unseren Fotografen wenn möglich (z.B. "Foto von John Doe auf Flickr" mit einem Link zur Fotoseite auf Flickr).</li>'
     .'</ul>'
     .'<br>'
@@ -38,8 +37,8 @@ $GLOBALS['TL_LANG']['tl_flickr']['flickr_safe_search'][0] = 'Sichere Suche';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_safe_search'][1] = 'Sichere Suche.';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_sort'][0] = 'Sortierung';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_sort'][1] = 'Sortierung.';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_content_type'][0] = 'Inhaltstyp';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_content_type'][1] = 'Inhaltstyp.';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_content_types'][0] = 'Inhaltstyp';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_content_types'][1] = 'Inhaltstyp.';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_min_upload_date'][0] = 'Minimales Uploaddatum';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_min_upload_date'][1] = 'Minimales Uploaddatum.';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_max_upload_date'][0] = 'Maximales Uploaddatum';
@@ -55,11 +54,11 @@ $GLOBALS['TL_LANG']['tl_flickr']['flickr_group_id'][1] = 'ID einer Gruppe, deren
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_has_geo'][0] = 'Fotos mit Geotags';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_has_geo'][1] = 'Fotos, das mit Geotags versehen wurde.';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_geo_context'][0] = 'Geo-Kontext';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_geo_context'][1] = 'Geo-Kontext.';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_geo_context'][1] = 'Der Geokontext ist ein numerischer Wert, der die Geotagging-Eigenschaft des Fotos über Längen- und Breitengrad hinaus darstellt.';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_lat'][0] = 'Latitude';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_lat'][1] = 'Latitude.';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_lat'][1] = 'Ein gültiger Breitengrad im Dezimalformat zum Durchführen radialer Geoabfragen.';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_lon'][0] = 'Longitude';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_lon'][1] = 'Longitude.';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_lon'][1] = 'Ein gültiger Längengrad im Dezimalformat zum Durchführen radialer Geoabfragen.';
 
 $GLOBALS['TL_LANG']['tl_flickr']['options']['tag_mode'] = [
     'OR' => 'Beliebig',
@@ -82,14 +81,11 @@ $GLOBALS['TL_LANG']['tl_flickr']['options']['safe_search'] = [
     '3' => 'Eingeschränkt',
 ];
 
-$GLOBALS['TL_LANG']['tl_flickr']['options']['content_type'] = [
-    '1' => 'Fotos',
-    '2' => 'Screenshots',
-    '3' => '„Sonstiges“',
-    '4' => 'Fotos und Screenshots',
-    '5' => 'Screenshots und „Sonstiges“.',
-    '6' => 'Fotos und „Sonstiges“',
-    '7' => 'Fotos, Screenshots und „Sonstiges“ (alle)',
+$GLOBALS['TL_LANG']['tl_flickr']['options']['content_types'] = [
+    '0' => 'Fotos',
+    '1' => 'Screenshots',
+    '2' => '„Sonstiges“',
+    '3' => 'Virtuelle Fotos',
 ];
 
 $GLOBALS['TL_LANG']['tl_flickr']['options']['geo_context'] = [
