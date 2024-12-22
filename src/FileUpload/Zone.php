@@ -252,10 +252,6 @@ class Zone extends FileUpload
 
         $template->palettes = self::generatePalettes($provider, $result, $config);
 
-        $template->searchTitle = $GLOBALS['TL_LANG']['tl_'.$provider]['searchTitle'];
-        $template->searchHelp = $GLOBALS['TL_LANG']['tl_'.$provider]['searchHelp'];
-        $template->searchButton = $GLOBALS['TL_LANG']['tl_'.$provider]['searchButton'];
-
         $template->user = 'user';
         $template->views = 'views';
         $template->likes = 'likes';
