@@ -38,7 +38,18 @@ foreach ($GLOBALS['TRILOBIT']['worldofimages']['provider']  as $provider) {
         PaletteManipulator::create()
             ->addLegend($provider.'_legend', 'backend_legend', PaletteManipulator::POSITION_APPEND)
             ->addField(
-                array_keys($GLOBALS['TL_DCA']['tl_'.$provider]['fields']),
+                array_filter(
+                    array_map(
+                        static function($item) use ($provider): string {
+                            if (str_contains($item, $provider)) {
+                                return $item;
+                            }
+
+                            return '';
+                        },
+                        array_keys($GLOBALS['TL_DCA']['tl_'.$provider]['fields'])
+                    )
+                ),
                 $provider.'_legend'
             )
             ->applyToPalette($palette, 'tl_user')
