@@ -24,7 +24,7 @@ $GLOBALS['TL_LANG']['MSC']['pixabay']['hint'] = '<p>Photos provided by <a href="
     .'<p>Please note the <strong>Pixabay <a href="https://pixabay.com/de/service/terms/#license" target="_blank" rel="noopener noreferrer"><u>Terms & Conditions</u></a></strong>!</p>'
 ;
 $GLOBALS['TL_LANG']['MSC']['pixabay']['resultCount'] = 'Hits';
-$GLOBALS['TL_LANG']['MSC']['pixabay']['cachedResult'] = 'Cache result; To keep the Unsplash API fast for everyone, requests are cached for 24 hours.';
+$GLOBALS['TL_LANG']['MSC']['pixabay']['cachedResult'] = 'Cache result; To keep the Pixabay-API fast for everyone, requests are cached for 24 hours.';
 
 $GLOBALS['TL_LANG']['tl_pixabay']['pixabay_legend'] = 'Pixabay settings';
 $GLOBALS['TL_LANG']['tl_pixabay']['search_legend'] = 'Search';

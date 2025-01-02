@@ -22,7 +22,7 @@ $GLOBALS['TL_LANG']['MSC']['flickr']['hint'] = '<p>Photos provided by <a href="h
     .'<p>Please note the <strong>Flickr <a href="https://www.flickr.com/help/terms" target="_blank" rel="noopener noreferrer"><u>Terms & Conditions</u></a></strong>!</p>'
 ;
 $GLOBALS['TL_LANG']['MSC']['flickr']['resultCount'] = 'Hits';
-$GLOBALS['TL_LANG']['MSC']['flickr']['cachedResult'] = 'Cache result; To keep the Flickr API fast for everyone, requests are cached for 24 hours.';
+$GLOBALS['TL_LANG']['MSC']['flickr']['cachedResult'] = 'Cache result; To keep the Flickr-API fast for everyone, requests are cached for 24 hours.';
 
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_legend'] = 'Flickr settings';
 $GLOBALS['TL_LANG']['tl_flickr']['search_legend'] = 'Search';
@@ -54,7 +54,7 @@ $GLOBALS['TL_LANG']['tl_flickr']['flickr_group_id'][1] = 'The id of a group who\
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_has_geo'][0] = 'Has been geotagged';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_has_geo'][1] = 'Any photo that has been geotagged, or if the value is \'0\' any photo that has not been geotagged.';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_geo_context'][0] = 'Geo context';
-$GLOBALS['TL_LANG']['tl_flickr']['flickr_geo_context'][1] = 'Geo context is a numeric value representing the photo\'s geotagginess beyond latitude and longitude.';
+$GLOBALS['TL_LANG']['tl_flickr']['flickr_geo_context'][1] = 'Geo context is a numeric value representing the photo\'s geotagging beyond latitude and longitude.';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_lat'][0] = 'Latitude';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_lat'][1] = 'A valid latitude, in decimal format, for doing radial geo queries.';
 $GLOBALS['TL_LANG']['tl_flickr']['flickr_lon'][0] = 'Longitude';

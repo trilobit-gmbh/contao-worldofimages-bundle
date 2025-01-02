@@ -23,7 +23,7 @@ $GLOBALS['TL_LANG']['MSC']['unsplash']['hint'] = '<p>Photos provided by <a href=
     .'<p>Please note the <strong>Unsplash <a href="https://unsplash.com/terms" target="_blank" rel="noopener noreferrer"><u>Terms & Conditions</u></a></strong>!</p>'
 ;
 $GLOBALS['TL_LANG']['MSC']['unsplash']['resultCount'] = 'Hits';
-$GLOBALS['TL_LANG']['MSC']['unsplash']['cachedResult'] = 'Cache result; To keep the Unsplash API fast for everyone, requests are cached for 24 hours.';
+$GLOBALS['TL_LANG']['MSC']['unsplash']['cachedResult'] = 'Cache result; To keep the Unsplash-API fast for everyone, requests are cached for 24 hours.';
 
 $GLOBALS['TL_LANG']['tl_unsplash']['unsplash_legend'] = 'Unsplash settings';
 $GLOBALS['TL_LANG']['tl_unsplash']['search_legend'] = 'Search';
