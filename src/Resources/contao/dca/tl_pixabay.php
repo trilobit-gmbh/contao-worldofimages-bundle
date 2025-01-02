@@ -9,6 +9,7 @@ declare(strict_types=1);
  */
 
 use Trilobit\WorldofimagesBundle\DataProvider\Configuration\ConfigurationProvider;
+use Trilobit\WorldofimagesBundle\FileUpload\Zone;
 
 /* todo: make complete */
 
@@ -17,11 +18,11 @@ $GLOBALS['TL_DCA']['tl_pixabay'] = [
         'dataContainer' => 'File',
         'closed' => true,
     ],
-
     'palettes' => [
-        'default' => '{filter_legend},pixabay_image_type,pixabay_category,pixabay_order,pixabay_orientation,pixabay_min_width,pixabay_min_height,pixabay_colors,pixabay_editors_choice,pixabay_safesearch',
+        'default' => '{search_legend},searchQuery,searchSubmit;'
+            .'{filter_legend},pixabay_image_type,pixabay_category,pixabay_order,pixabay_orientation,pixabay_min_width,pixabay_min_height,pixabay_colors,pixabay_editors_choice,pixabay_safesearch;'
+            .'{result_legend},images,pagination',
     ],
-
     'fields' => [
         'pixabay_image_type' => [
             'inputType' => 'select',
@@ -78,6 +79,27 @@ $GLOBALS['TL_DCA']['tl_pixabay'] = [
             'inputType' => 'text',
             'eval' => ['rgxp' => 'natural', 'nospace' => true, 'tl_class' => 'w50'],
             'sql' => 'int(10) NULL',
+        ],
+
+        'searchQuery' => [
+            'label' => &$GLOBALS['TL_LANG']['MSC']['woi_query'],
+            'inputType' => 'text',
+            'eval' => ['tl_class' => 'w50'],
+        ],
+        'searchSubmit' => [
+            'label' => &$GLOBALS['TL_LANG']['MSC']['woi_search'],
+            'inputType' => 'text',
+            'input_field_callback' => [Zone::class, 'onSearchSubmitField'],
+            'eval' => ['tl_class' => 'w50'],
+        ],
+        'images' => [
+            'inputType' => 'text',
+            'input_field_callback' => [Zone::class, 'onImagesField'],
+            'eval' => ['tl_class' => 'widget clr'],
+        ],
+        'pagination' => [
+            'inputType' => 'text',
+            'input_field_callback' => [Zone::class, 'onPaginationField'],
         ],
     ],
 ];

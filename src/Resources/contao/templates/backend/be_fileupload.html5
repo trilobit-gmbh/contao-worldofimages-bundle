@@ -17,53 +17,20 @@
 
 </div></div>
 
-<div id="form">
-    <fieldset id="pal_<?= $this->provider; ?>_search_legend" class="tl_box">
-        <legend onclick="AjaxRequest.toggleFieldset(this,'<?= $this->provider; ?>_search_legend','tl_<?= $this->provider; ?>')"><?= $this->search_legend; ?></legend>
-
-        <div class="w50 widget">
-            <h3>
-                <?= $this->queryTitle; ?>
-            </h3>
-
-            <input name="search" type="text" value="<?= $this->query; ?>" class="tl_text search">
-
-            <p class="tl_help tl_tip">
-                <?= $this->queryHelp; ?>
-            </p>
-        </div>
-
-        <div class="w50 widget">
-            <h3>
-                <?= $this->searchTitle; ?>
-            </h3>
-
-            <button class="tl_submit" name="search" style="margin-top:3px">
-                <?= $this->searchButton; ?>
-            </button>
-
-            <p class="tl_help tl_tip">
-                <?= $this->searchHelp; ?>
-            </p>
-        </div>
-    </fieldset>
-
-    <?= $this->filterPalette; ?>
-
-    <fieldset id="pal_result_legend" class="tl_box collapsed">
-        <legend onclick="AjaxRequest.toggleFieldset(this,'result_legend', 'tl_<?= $this->provider; ?>')"><?= $this->result_legend; ?></legend>
-
-        <div id="images" class="widget clr">
-            <?= $this->noResult; ?>
-        </div>
-
-        <div id="pagination" class="tl_box clr"></div>
-    </fieldset>
-</div>
+<?= $this->palettes; ?>
 
 <script>
     window.addEventListener("load", function(event) {
-        //$$('div.tl_formbody_submit').addClass('invisible');
+        submit = document.querySelector('div[class="tl_formbody_submit"]');
+
+        submit.classList.add('invisible');
+
+        let jumpTargets = document.querySelector('div[class="jump-targets"]');
+        if (null !== jumpTargets) {
+            let buttons = document.querySelector('#tl_buttons');
+
+            buttons.before(jumpTargets);
+        }
     });
 
     let images = document.querySelector('#images');
@@ -80,6 +47,18 @@
     let color = '<?= $this->color; ?>';
 
     let isCachedResult = '<?= $this->isCachedResult; ?>';
+
+    let filterLegend = document.querySelector('[data-contao--toggle-fieldset-id-value="filter_legend"]');
+    if (null === filterLegend) {
+        filterLegend = document.querySelector('#pal_filter_legend');
+    }
+
+    let resultLegend = document.querySelector('[data-contao--toggle-fieldset-id-value="result_legend"]');
+    if (null === resultLegend) {
+        resultLegend = document.querySelector('#pal_result_legend');
+    }
+
+    let submit;
 
     function goToPage(page)
     {
@@ -120,12 +99,13 @@
 
         // html: open pagination container
         htmlPagination = ''
-            +'<div class="pagination">'
-                +'<p>'
-                    +'<?= $this->totalPages; ?>'
-                +'</p>'
-                +'<ul>'
+            +'<p>'
+                +'<?= $this->totalPages; ?>'
+            +'</p>'
+            +'<ul>'
         ;
+
+        pagination.classList.remove('invisible');
 
         // html: previous
         if (page > 1)
@@ -189,8 +169,7 @@
 
         // html: close pagination container
         htmlPagination += ''
-                +'</ul>'
-            + '</div>'
+            +'</ul>'
         ;
 
         pagination.innerHTML = htmlPagination;
@@ -229,7 +208,7 @@
                                     +'<a href="'+value.url+'" target="_blank"><?= ucfirst($this->provider); ?></a>'
                                 +'</div>'
                                 +'<br>'
-                                +'<input type="checkbox" id="image_'+key+'" value="'+key+'" name="tl_imageIds[]" onclick="$$(\'#preview_'+key+'\').toggleClass(\'selected\')">'
+                                +'<input type="checkbox" id="image_'+key+'" value="'+key+'" name="tl_imageIds[]" onclick="clickImage(\''+key+'\');">'
                                 +'ID: <strong>'+key+'</strong>'
                                 +'<table class="tl_show">'
                                     +'<tbody>';
@@ -298,7 +277,17 @@
             images.innerHTML = strHtmlImages;
             imagePagination(jsonData.count);
 
-            new Fx.Scroll(window).toElement('pal_result_legend');
+            new Fx.Scroll(window).toElement(resultLegend);
+        }
+    }
+
+    function clickImage(item)
+    {
+        document.querySelector('#preview_'+item).classList.toggle('selected');
+
+        submit.classList.add('invisible');
+        if (0 !== document.querySelectorAll('input[name*="tl_imageIds"][type="checkbox"]:checked').length) {
+            submit.classList.remove('invisible');
         }
     }
 
@@ -376,7 +365,11 @@
             page = newPage;
         }
 
-        let search = [document.querySelector('[name="search"]').value];
+        resultLegend.classList.remove('collapsed');
+        filterLegend.classList.add('collapsed');
+        pagination.classList.add('invisible');
+
+        let search = document.querySelector('[name="searchQuery"]').value;
 
         if (   undefined === search[0]
             || '' === search[0]
@@ -387,18 +380,17 @@
             return false;
         }
 
-        api(search[0]);
+        api(search);
 
         return false;
     }
 
     function search()
     {
-        document.querySelector('#form button.tl_submit[name="search"]').addEventListener(
+        document.querySelector('button.tl_submit[name="search"]').addEventListener(
             'click',
             function(e) {
                 e.preventDefault();
-
                 return searchUpdate(1);
             },
             false
@@ -408,9 +400,9 @@
     search();
 
     // todo
-    <?php if (isset($GLOBALS['TL_CONFIG']['page'])): ?>
+    <?php if (isset($GLOBALS['TL_CONFIG']['page'])) { ?>
     if (isCachedResult) searchUpdate(<?= $GLOBALS['TL_CONFIG']['page']; ?>);
-    <?php endif; ?>
+    <?php } ?>
 </script>
 
 <div><div>

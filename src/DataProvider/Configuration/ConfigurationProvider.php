@@ -111,9 +111,9 @@ class ConfigurationProvider
         return self::getConfig('flickr', 'safe_search');
     }
 
-    public function flickrGetContentType(DataContainer $dc): array
+    public function flickrGetContentTypes(DataContainer $dc): array
     {
-        return self::getConfig('flickr', 'content_type');
+        return self::getConfig('flickr', 'content_types');
     }
 
     public function flickrGetGeoContext(DataContainer $dc): array

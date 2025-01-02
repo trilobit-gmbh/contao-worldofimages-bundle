@@ -12,8 +12,8 @@
     "require": {
         "ext-curl": "*",
         "ext-json": "*",
-        "php": "^7.3 || ^8.0",
-        "contao/core-bundle": "^4.9 || ^5.0"
+        "php": "^7.4 || ^8.0",
+        "contao/core-bundle": "^4.13 || ^5.0"
     },
     "require-dev": {
         "contao/easy-coding-standard": "^3.0",
