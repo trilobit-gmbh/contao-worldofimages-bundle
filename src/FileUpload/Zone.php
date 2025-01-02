@@ -789,7 +789,7 @@ class Zone extends FileUpload
 
                 $exception = json_decode($e->getMessage()) ?? new \stdClass();
                 if (empty($exception->status)) {
-                    $status = -0;
+                    $status = -1;
                     $message = $e->getMessage();
                 } else {
                     $status = $exception->code;
