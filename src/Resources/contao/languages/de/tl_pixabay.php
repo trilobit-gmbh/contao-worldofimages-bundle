@@ -16,7 +16,7 @@ $GLOBALS['TL_LANG']['MSC']['pixabay']['providerLink'] = '<figure><img src="bundl
 $GLOBALS['TL_LANG']['MSC']['pixabay']['hint'] = '<p>Fotos zur Verfügung gestellt von <a href="https://pixabay.com" target="_blank" rel="noopener noreferrer"><u>Pixabay</u></a>.</p>'
     .'<p><strong>Richtlinien</strong></p>'
     .'<ul>'
-    .'<li>Standardmäßig ist die API beschränkt auf 5.000 Anfragen pro Stunde (Anfragen sind an den API-Key geknüpft) und</li>'
+    .'<li>Standardmäßig ist die API beschränkt auf 6.000 Anfragen pro Stunde (Anfragen sind an den API-Key geknüpft) und</li>'
     .'<li>maximal 500 Bilder pro Abfrage.</li>'
     .'</ul>'
     .'<br>'
@@ -30,13 +30,6 @@ $GLOBALS['TL_LANG']['tl_pixabay']['pixabay_legend'] = 'Pixabay-Einstellungen';
 $GLOBALS['TL_LANG']['tl_pixabay']['search_legend'] = 'Suche';
 $GLOBALS['TL_LANG']['tl_pixabay']['filter_legend'] = 'Filter';
 $GLOBALS['TL_LANG']['tl_pixabay']['result_legend'] = 'Suchergebnisse';
-
-$GLOBALS['TL_LANG']['tl_pixabay']['queryTitle'] = 'Suchbegriffe';
-$GLOBALS['TL_LANG']['tl_pixabay']['queryHelp'] = 'Bitte geben sie hier ihren Suchbegriff bzw. ihre Suchbegriffe ein.';
-
-$GLOBALS['TL_LANG']['tl_pixabay']['searchTitle'] = '';
-$GLOBALS['TL_LANG']['tl_pixabay']['searchButton'] = 'Suche starten';
-$GLOBALS['TL_LANG']['tl_pixabay']['searchHelp'] = '';
 
 $GLOBALS['TL_LANG']['tl_pixabay']['pixabay_image_type'][0] = 'Typ';
 $GLOBALS['TL_LANG']['tl_pixabay']['pixabay_image_type'][1] = 'Typ.';

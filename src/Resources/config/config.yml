@@ -189,7 +189,7 @@ trilobit:
                 - safe_search
                 - string
             -
-                - content_type
+                - content_types
                 - string
             -
                 - group_id
@@ -235,14 +235,11 @@ trilobit:
             - 1 # safe
             - 2 # moderate
             - 3 # restricted
-        content_type:
-            - 1 # photos only.
-            - 2 # screenshots only
-            - 3 # other only
-            - 4 # photos and screenshots
-            - 5 # screenshots and other
-            - 6 # photos and other
-            - 7 # all
+        content_types:
+            - 0 # for photos.
+            - 1 # for screenshots
+            - 2 # for 'other'.
+            - 3 # for virtual photos
         geo_context:
             - 0 # not defined
             - 1 # indoors

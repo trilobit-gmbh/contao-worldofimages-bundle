@@ -17,9 +17,9 @@ use Contao\Controller;
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\Database;
+use Contao\DataContainer;
 use Contao\Dbafs;
 use Contao\DC_File;
-use Contao\Environment;
 use Contao\File;
 use Contao\Files;
 use Contao\FileUpload;
@@ -34,31 +34,86 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class Zone extends FileUpload
 {
-    public static function generateFilterPalette($provider)
+    public static function generatePalettes($provider, $result, $config)
     {
+        System::loadLanguageFile('tl_'.$provider);
         Controller::loadDataContainer('tl_'.$provider);
 
         $palette = new DC_File('tl_'.$provider);
 
         $buffer = $palette->edit();
 
-        $buffer = preg_replace(
-            '/.*<fieldset /si',
-            '<fieldset ',
+        $buffer = str_replace(
+            [
+                '##poweredBy##',
+                '##providerLink##',
+                '##trilobitLink##',
+                '##providerHint##',
+            ],
+            [
+                $GLOBALS['TL_LANG']['MSC'][$provider]['poweredBy'],
+                $GLOBALS['TL_LANG']['MSC'][$provider]['providerLink'],
+                $GLOBALS['TL_LANG']['MSC'][$provider]['trilobitLink'],
+                $GLOBALS['TL_LANG']['MSC'][$provider]['hint'],
+            ],
             $buffer
         );
 
         $buffer = preg_replace(
-            '/<\/fieldset>.*/si',
-            '</fieldset>',
+            [
+                '/<form.*?>(.*)<\/form>/is',
+                '/<input type="hidden" name="FORM_SUBMIT" value=".*?">/is',
+                '/<input type="hidden" name="REQUEST_TOKEN" value=".*?">/is',
+                '/<div class="tl_submit_container">.*?<\/div>/is',
+                '/<div class="tl_formbody_submit">.*?<\/div>/is',
+                '/<div id="tl_buttons">.*?<\/div>/is',
+                '/<div class="tl_formbody_edit">(.*)<\/div>/is',
+            ],
+            '$1',
             $buffer
         );
 
-        return preg_replace(
-            '/<div id="tl_buttons">.*<\/div>/si',
-            '',
+        $defaultValue = !empty(Input::get('new'))
+            ? ''
+            : $result['__api__']['parameter'][$config['query_key']] ?? ''
+        ;
+
+        $buffer = \Safe\preg_replace(
+            '/<input(.*?)name="searchQuery"(.*?)value=".*?"(.*?)>/',
+            '<input$1name="searchQuery"$2value="'.$defaultValue.'"$3>',
             $buffer
         );
+
+        return $buffer;
+    }
+
+    public static function onSearchSubmitField(DataContainer $dc, string $label): string
+    {
+        return '
+        <div class="'.($GLOBALS['TL_DCA'][$dc->table]['fields'][$dc->field]['eval']['tl_class'] ?? '').'">
+            <h3>
+                '.$GLOBALS['TL_LANG']['MSC']['woi_search'][0].'
+            </h3>
+
+            <button class="tl_submit" name="search" style="margin-top:3px">
+                '.$GLOBALS['TL_LANG']['MSC']['woi_search'][2].'
+            </button>
+
+            <p class="tl_help tl_tip">
+                '.$GLOBALS['TL_LANG']['MSC']['woi_search'][1].'
+            </p>
+        </div>
+        ';
+    }
+
+    public static function onImagesField(DataContainer $dc, string $label): string
+    {
+        return '<div id="images" class="'.($GLOBALS['TL_DCA'][$dc->table]['fields'][$dc->field]['eval']['tl_class'] ?? '').'"></div>';
+    }
+
+    public static function onPaginationField(DataContainer $dc, string $label): string
+    {
+        return '<nav id="pagination" class="invisible pagination pagination-lp" aria-label="'.$GLOBALS['TL_LANG']['MSC']['pagination'].'"></nav>';
     }
 
     protected function setUploader(string $provider): void
@@ -189,19 +244,13 @@ class Zone extends FileUpload
 
         $template->queryParameter = '';
         foreach (array_keys($GLOBALS['TL_DCA']['tl_'.$provider]['fields']) as $item) {
+            if (!str_contains($provider, $item)) {
+                continue;
+            }
             $template->queryParameter .= '&'.str_replace($provider.'_', '', $item)."='+document.querySelector('[name=\"".$item."\"]').value+'";
         }
 
-        $template->search_legend = $GLOBALS['TL_LANG']['tl_'.$provider]['search_legend'];
-        $template->result_legend = $GLOBALS['TL_LANG']['tl_'.$provider]['result_legend'];
-
-        $template->filterPalette = self::generateFilterPalette($provider);
-
-        $template->queryTitle = $GLOBALS['TL_LANG']['tl_'.$provider]['queryTitle'];
-        $template->queryHelp = $GLOBALS['TL_LANG']['tl_'.$provider]['queryHelp'];
-        $template->searchTitle = $GLOBALS['TL_LANG']['tl_'.$provider]['searchTitle'];
-        $template->searchHelp = $GLOBALS['TL_LANG']['tl_'.$provider]['searchHelp'];
-        $template->searchButton = $GLOBALS['TL_LANG']['tl_'.$provider]['searchButton'];
+        $template->palettes = self::generatePalettes($provider, $result, $config);
 
         $template->user = 'user';
         $template->views = 'views';
@@ -221,9 +270,11 @@ class Zone extends FileUpload
             .StringUtil::specialchars($GLOBALS['TL_LANG']['MSC'][$provider]['cachedResult'])
             .'</p></div>'
         ;
-        $template->noResult = '<div class="widget"><p>'
+        $template->noResult = ''
+            .'<h3><label></label></h3>'
+            .'<p>'
             .StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['noResult'])
-            .'</p></div>'
+            .'</p>'
         ;
         $template->isCachedResult = $cachedResult ? 'true' : 'false';
 
@@ -568,17 +619,6 @@ class Zone extends FileUpload
                         $result['__meta__'][$value['id']] = [
                             'user' => $value['user']['name'],
                             'url' => $value['links']['html'],
-                            'tags' => implode(
-                                ', ',
-                                array_filter(array_map(
-                                    (static function($item) {
-                                        if (isset($item['type']) && 'search' === $item['type']) {
-                                            return $item['title'];
-                                        }
-                                    }),
-                                    $value['tags']
-                                ))
-                            ),
                             'description' => $value['alt_description'],
                             'color' => $value['color'],
                             'likes' => $value['likes'],
@@ -595,6 +635,17 @@ class Zone extends FileUpload
                             'user' => $value['owner'],
                             'description' => $value['title'],
                             'url' => 'https://www.flickr.com/photos/'.$value['owner'].'/'.$value['id'],
+                            'tags' => implode(
+                                ', ',
+                                array_filter(array_map(
+                                    (static function($item) {
+                                        if (isset($item['type']) && 'search' === $item['type']) {
+                                            return $item['title'];
+                                        }
+                                    }),
+                                    $value['tags']
+                                ))
+                            ),
                             'preview' => 'https://live.staticflickr.com/'.$value['server'].'/'.$value['id'].'_'.$value['secret'].'_n.jpg',
                         ];
                     }
@@ -641,18 +692,20 @@ class Zone extends FileUpload
                 } elseif ('int' === strtolower($type)) {
                     $parameter[$key] = (int) Input::get($key);
                 } else {
-                    $parameter[$key] = Input::get($key);
+                    $parameter[$key] = Input::get($key) ?? '';
                 }
             }
         }
 
-        if ('tags' === Input::get('search')) {
-            $parameter['tags'] = Input::get('tag_text');
-        } elseif ('text' === Input::get('search')) {
-            $parameter['text'] = Input::get('tag_text');
-        } else {
-            $parameter['tags'] = Input::get('tag_text');
-            $parameter['text'] = Input::get('tag_text');
+        if (\array_key_exists('search', $config)) {
+            if ('tags' === Input::get('search')) {
+                $parameter['tags'] = Input::get('tag_text');
+            } elseif ('text' === Input::get('search')) {
+                $parameter['text'] = Input::get('tag_text');
+            } else {
+                $parameter['tags'] = Input::get('tag_text');
+                $parameter['text'] = Input::get('tag_text');
+            }
         }
 
         return $parameter;
@@ -734,13 +787,20 @@ class Zone extends FileUpload
                     ['contao' => new ContaoContext(__METHOD__, strtoupper($provider).'_SEARCH')]
                 );
 
-                $exception = json_decode($e->getMessage());
+                $exception = json_decode($e->getMessage()) ?? new \stdClass();
+                if (empty($exception->status)) {
+                    $status = -0;
+                    $message = $e->getMessage();
+                } else {
+                    $status = $exception->code;
+                    $message = $exception->status;
+                }
 
                 $result = [
                     '__api__' => [
                         'exception' => [
-                            'status' => $exception->status,
-                            'message' => $exception->code,
+                            'status' => $status,
+                            'message' => $message,
                         ],
                         'url' => $apiUrl,
                         'key' => $apiKey,

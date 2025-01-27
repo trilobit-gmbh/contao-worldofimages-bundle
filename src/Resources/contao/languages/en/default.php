@@ -8,5 +8,11 @@ declare(strict_types=1);
  * @license    LGPL-3.0-or-later
  */
 
-$GLOBALS['TL_LANG']['ERR']['generalUpload'] = 'Auswahl konnte nicht hochgeladen werden! Bitte prüfen Sie den Konfigurations-Wert "%s"';
-$GLOBALS['TL_LANG']['ERR']['imageSourceNotAvailable'] = 'Die gewünschte Bildquelle "%s" ist nicht mit diesem API-Key verfügbar. Bitte überprüfen Sie die Konfiguration.';
+$GLOBALS['TL_LANG']['ERR']['generalUpload'] = 'Selection could not be uploaded! Please check the configuration value "%s"';
+$GLOBALS['TL_LANG']['ERR']['imageSourceNotAvailable'] = 'The requested image source "%s" is not available with this API key. Please check the configuration.';
+
+$GLOBALS['TL_LANG']['MSC']['woi_query'][0] = 'Search terms';
+$GLOBALS['TL_LANG']['MSC']['woi_query'][1] = 'Please enter your search term(s) here.';
+$GLOBALS['TL_LANG']['MSC']['woi_search'][0] = '';
+$GLOBALS['TL_LANG']['MSC']['woi_search'][1] = '';
+$GLOBALS['TL_LANG']['MSC']['woi_search'][2] = 'Start search';

@@ -218,6 +218,18 @@
     margin-left: 10px;
 }
 
+#pal_result_legend,
+fieldset[data-contao--toggle-fieldset-id-value="result_legend"] {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+#pal_result_legend .tl_box,
+fieldset[data-contao--toggle-fieldset-id-value="result_legend"] .tl_box {
+    padding-bottom: 0;
+}
+
+
 /*noinspection CssUnusedSymbol*/
 #images .spinner {
     width: 40px;
@@ -242,8 +254,8 @@
         -webkit-transform: scale(0);
         transform: scale(0);
     } 100% {
-          -webkit-transform: scale(1.0);
-          transform: scale(1.0);
-          opacity: 0;
-      }
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+        opacity: 0;
+    }
 }
