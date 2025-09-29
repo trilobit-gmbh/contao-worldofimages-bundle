@@ -1,6 +1,6 @@
 services:
     _instanceof:
-        Symfony\Component\DependencyInjection\ContainerAwareInterface:
+        Contao\CoreBundle\Framework\FrameworkAwareInterface:
             calls:
                 - ['setContainer', ['@service_container']]
     _defaults:

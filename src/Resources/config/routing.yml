@@ -1,3 +1,4 @@
 trilobit_worldofimages:
     resource: '../../Controller/'
-    type: annotation
+    #type: annotation
+    type: attribute

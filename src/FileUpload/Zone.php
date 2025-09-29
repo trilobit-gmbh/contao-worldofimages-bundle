@@ -78,7 +78,7 @@ class Zone extends FileUpload
             : $result['__api__']['parameter'][$config['query_key']] ?? ''
         ;
 
-        $buffer = \Safe\preg_replace(
+        $buffer = preg_replace(
             '/<input(.*?)name="searchQuery"(.*?)value=".*?"(.*?)>/',
             '<input$1name="searchQuery"$2value="'.$defaultValue.'"$3>',
             $buffer
@@ -643,7 +643,7 @@ class Zone extends FileUpload
                                             return $item['title'];
                                         }
                                     }),
-                                    $value['tags']
+                                    $value['tags'] ?? []
                                 ))
                             ),
                             'preview' => 'https://live.staticflickr.com/'.$value['server'].'/'.$value['id'].'_'.$value['secret'].'_n.jpg',
@@ -776,7 +776,8 @@ class Zone extends FileUpload
                 $result['__api__']['url'] = $apiUrl;
                 $result['__api__']['key'] = $apiKey;
                 $result['__api__']['parameter'] = $parameter;
-
+                $result['__api__']['request'] = '?method=flickr.photos.search&api_key='.$apiKey.'&format=json&nojsoncallback=1&'.http_build_query($parameter);
+                
                 $result = self::handleCache($provider, $parameter, $result);
 
                 $result['__api__']['cachedResult'] = false;
@@ -837,7 +838,7 @@ class Zone extends FileUpload
 
         $url .= '&lang='.$GLOBALS['TL_LANGUAGE'];
         $url .= '&per_page='.floor(Config::get('resultsPerPage') / 4) * 4;
-
+        
         $objCurl = curl_init();
 
         if ('pexels' === $provider) {

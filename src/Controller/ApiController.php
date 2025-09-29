@@ -13,18 +13,11 @@ namespace Trilobit\WorldofimagesBundle\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Trilobit\WorldofimagesBundle\FileUpload\Zone;
 
-/**
- * @Route(defaults={"_scope": "backend", "_token_check": false})
- */
 class ApiController
 {
-    /**
-     * @Route("/_trilobit/{slug}")
-     *
-     * @param mixed $slug
-     *
-     * @throws \Exception
-     */
+    
+    #[Route('/_trilobit/{slug}', name: self::class, defaults: ['_scope' => 'backend'])]
+
     public function __invoke($slug): void
     {
         if (!\in_array($slug, $GLOBALS['TRILOBIT']['worldofimages']['provider'], true)) {
