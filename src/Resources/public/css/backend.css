@@ -259,3 +259,15 @@ fieldset[data-contao--toggle-fieldset-id-value="result_legend"] .tl_box {
         opacity: 0;
     }
 }
+
+.provider.search {
+    background: var(--form-button);
+    border: 1px solid var(--form-border);
+    border-radius: 2px;
+    box-sizing: border-box;
+    cursor: pointer;
+    height: 30px;
+    padding: 7px 12px;
+    transition: background .2s ease;
+    margin: 3px 0;
+}

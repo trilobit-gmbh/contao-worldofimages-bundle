@@ -1,13 +1,16 @@
 
 /* todo: make complete */
 
-document.addEventListener("DOMContentLoaded", function() {
+function initImageWorldMenu() {
     let trigger = document.querySelector('.header_imageworld');
 
     if (null === trigger) {
         return;
     }
 
+    trigger.parentNode.parentNode.removeChild(trigger.parentNode);
+
+    /*
     trigger.classList.add('submenu');
     trigger.removeAttribute('href');
 
@@ -38,4 +41,19 @@ document.addEventListener("DOMContentLoaded", function() {
     document.onclick = function(e) {
         trigger.classList.remove('active');
     };
+    */
+}
+window.addEventListener("turbo:before-fetch-response", function(event) {
+    initImageWorldMenu();
 });
+
+window.addEventListener("load", function(event) {
+    initImageWorldMenu();
+});
+
+window.setTimeout(
+    (function() {
+        initImageWorldMenu();
+    }),
+    500
+);

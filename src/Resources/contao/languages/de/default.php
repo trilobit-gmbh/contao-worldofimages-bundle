@@ -14,5 +14,5 @@ $GLOBALS['TL_LANG']['ERR']['imageSourceNotAvailable'] = 'Die gewünschte Bildque
 $GLOBALS['TL_LANG']['MSC']['woi_query'][0] = 'Suchbegriffe';
 $GLOBALS['TL_LANG']['MSC']['woi_query'][1] = 'Bitte geben sie hier ihren Suchbegriff bzw. ihre Suchbegriffe ein.';
 $GLOBALS['TL_LANG']['MSC']['woi_search'][0] = '';
-$GLOBALS['TL_LANG']['MSC']['woi_search'][1] = '';
+$GLOBALS['TL_LANG']['MSC']['woi_search'][1] = 'Hier klicken um jetzt zu suchen.';
 $GLOBALS['TL_LANG']['MSC']['woi_search'][2] = 'Suche starten';

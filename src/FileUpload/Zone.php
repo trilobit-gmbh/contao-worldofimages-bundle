@@ -95,9 +95,9 @@ class Zone extends FileUpload
                 '.$GLOBALS['TL_LANG']['MSC']['woi_search'][0].'
             </h3>
 
-            <button class="tl_submit" name="search" style="margin-top:3px">
+            <a class="tl_submit provider search" title="'.$GLOBALS['TL_LANG']['MSC']['woi_search'][1].'">
                 '.$GLOBALS['TL_LANG']['MSC']['woi_search'][2].'
-            </button>
+            </a>
 
             <p class="tl_help tl_tip">
                 '.$GLOBALS['TL_LANG']['MSC']['woi_search'][1].'
@@ -777,7 +777,7 @@ class Zone extends FileUpload
                 $result['__api__']['key'] = $apiKey;
                 $result['__api__']['parameter'] = $parameter;
                 $result['__api__']['request'] = '?method=flickr.photos.search&api_key='.$apiKey.'&format=json&nojsoncallback=1&'.http_build_query($parameter);
-                
+
                 $result = self::handleCache($provider, $parameter, $result);
 
                 $result['__api__']['cachedResult'] = false;
@@ -838,7 +838,7 @@ class Zone extends FileUpload
 
         $url .= '&lang='.$GLOBALS['TL_LANGUAGE'];
         $url .= '&per_page='.floor(Config::get('resultsPerPage') / 4) * 4;
-        
+
         $objCurl = curl_init();
 
         if ('pexels' === $provider) {
