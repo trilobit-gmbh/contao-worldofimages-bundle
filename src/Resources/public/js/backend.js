@@ -8,7 +8,7 @@ function initImageWorldMenu() {
         return;
     }
 
-    trigger.parentNode.parentNode.removeChild(trigger.parentNode);
+    // trigger.parentNode.parentNode.removeChild(trigger.parentNode);
 
     /*
     trigger.classList.add('submenu');
@@ -43,6 +43,7 @@ function initImageWorldMenu() {
     };
     */
 }
+/*
 window.addEventListener("turbo:before-fetch-response", function(event) {
     initImageWorldMenu();
 });
@@ -57,3 +58,4 @@ window.setTimeout(
     }),
     500
 );
+*/

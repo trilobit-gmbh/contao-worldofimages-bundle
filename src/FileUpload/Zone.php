@@ -75,8 +75,7 @@ class Zone extends FileUpload
 
         $defaultValue = !empty(Input::get('new'))
             ? ''
-            : $result['__api__']['parameter'][$config['query_key']] ?? ''
-        ;
+            : $result['__api__']['parameter'][$config['query_key']] ?? '';
 
         $buffer = preg_replace(
             '/<input(.*?)name="searchQuery"(.*?)value=".*?"(.*?)>/',
@@ -127,7 +126,7 @@ class Zone extends FileUpload
 
             $zone = '\\Trilobit\\WorldofimagesBundle\\FileUpload\\'.ucfirst($provider).'Zone';
             $zoneClass = new $zone();
-            $this->User->uploader = \get_class($zoneClass);
+            $this->User->uploader = $zoneClass::class;
         }
     }
 
@@ -144,8 +143,7 @@ class Zone extends FileUpload
                 .'>'
                 .$label
                 .'</a> '
-            : ''
-            ;
+            : '';
     }
 
     public function pixabaySetUploader()
@@ -189,12 +187,9 @@ class Zone extends FileUpload
     }
 
     /**
-     * @param mixed $provider
-     * @param mixed $user
-     *
      * @throws \Exception
      */
-    public function markup($provider, $user): string
+    public function markup(mixed $provider, mixed $user): string
     {
         System::loadLanguageFile('tl_'.$provider);
         Controller::loadDataContainer('tl_'.$provider);
@@ -227,8 +222,7 @@ class Zone extends FileUpload
 
             $page = \array_key_exists('page', $result['__api__']['parameter'])
                 ? $result['__api__']['parameter']['page']
-                : 1
-            ;
+                : 1;
         }
 
         self::handleConfigParameter($config, $result, $user, $provider);
@@ -239,14 +233,17 @@ class Zone extends FileUpload
         $template->query = $query;
         $template->page = $page;
         $template->language = $GLOBALS['TL_LANGUAGE'];
-        $template->url = '/_trilobit/'.$provider;
+        $template->url = '//'.\Contao\Environment::get('host').'/_trilobit/'.$provider;
         $template->queryKey = $config['query_key'];
 
         $template->queryParameter = '';
+        $template->queryParameterList = [];
         foreach (array_keys($GLOBALS['TL_DCA']['tl_'.$provider]['fields']) as $item) {
-            if (!str_contains($provider, $item)) {
+            if (!str_contains($item, $provider)) {
                 continue;
             }
+            $template->queryParameterList[] = $item;
+
             $template->queryParameter .= '&'.str_replace($provider.'_', '', $item)."='+document.querySelector('[name=\"".$item."\"]').value+'";
         }
 
@@ -258,6 +255,8 @@ class Zone extends FileUpload
         $template->favorites = 'favorites';
         $template->downloads = 'downloads';
         $template->tags = 'tags';
+        $template->link = 'link';
+        $template->linkIntro = 'show on';
         $template->description = 'description';
         $template->color = 'color';
 
@@ -268,21 +267,19 @@ class Zone extends FileUpload
         $template->resultCount = $GLOBALS['TL_LANG']['MSC'][$provider]['resultCount'];
         $template->resultCached = '<div class="widget"><p>'
             .StringUtil::specialchars($GLOBALS['TL_LANG']['MSC'][$provider]['cachedResult'])
-            .'</p></div>'
-        ;
+            .'</p></div>';
         $template->noResult = ''
             .'<h3><label></label></h3>'
             .'<p>'
             .StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['noResult'])
-            .'</p>'
-        ;
+            .'</p>';
         $template->isCachedResult = $cachedResult ? 'true' : 'false';
 
         $template->first = StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['first']);
         $template->previous = StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['previous']);
         $template->next = StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['next']);
         $template->last = StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['last']);
-        $template->goToPage = sprintf(StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['goToPage']), '##PAGE##');
+        $template->goToPage = \sprintf(StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['goToPage']), '##PAGE##');
 
         $template->totalPages = preg_replace('/^(.*?)%s(.*?)%s(.*?)$/', '$1\'+page+\'$2\'+pages+\'$3', StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['totalPages']));
         $template->resultsPerPage = floor(Config::get('resultsPerPage') / 4) * 4;
@@ -292,13 +289,9 @@ class Zone extends FileUpload
     }
 
     /**
-     * @param mixed $provider
-     * @param mixed $targetDir
-     * @param mixed $zone
-     *
      * @throws \Exception
      */
-    public function upload($provider, $targetDir, $zone): array
+    public function upload(mixed $provider, mixed $targetDir, mixed $zone): array
     {
         $container = System::getContainer();
         $rootDir = $container->getParameter('kernel.project_dir');
@@ -412,7 +405,7 @@ class Zone extends FileUpload
 
         if (!$source) {
             Message::addError(
-                sprintf(
+                \sprintf(
                     $GLOBALS['TL_LANG']['ERR']['imageSourceNotAvailable'],
                     $imageSource
                 )
@@ -516,7 +509,7 @@ class Zone extends FileUpload
 
                 // Notify the user
                 Message::addConfirmation(
-                    sprintf(
+                    \sprintf(
                         $GLOBALS['TL_LANG']['MSC']['fileUploaded'],
                         $targetFile
                     )
@@ -554,11 +547,9 @@ class Zone extends FileUpload
     }
 
     /**
-     * @param mixed $provider
-     *
      * @throws \Exception
      */
-    public static function handleCache($provider, array $parameter = [], array $result = []): ?array
+    public static function handleCache(mixed $provider, array $parameter = [], array $result = []): ?array
     {
         $container = System::getContainer();
 
@@ -574,8 +565,7 @@ class Zone extends FileUpload
             ? md5(implode('', $parameter))
             : (Input::post('tl_cache')
                 ?: $session['cache'] ?? ''
-            )
-        ;
+            );
 
         $cacheFile = StringUtil::stripRootDir($cacheDir).'/trilobit/'.$provider.'_'.$checksum.'.json';
 
@@ -638,11 +628,11 @@ class Zone extends FileUpload
                             'tags' => implode(
                                 ', ',
                                 array_filter(array_map(
-                                    (static function($item) {
+                                    static function($item) {
                                         if (isset($item['type']) && 'search' === $item['type']) {
                                             return $item['title'];
                                         }
-                                    }),
+                                    },
                                     $value['tags'] ?? []
                                 ))
                             ),
@@ -744,11 +734,9 @@ class Zone extends FileUpload
     }
 
     /**
-     * @param mixed $provider
-     *
      * @throws \Exception
      */
-    public static function handleRequest($provider): void
+    public static function handleRequest(mixed $provider): void
     {
         if (empty($apiKey = Config::get($provider.'ApiKey'))) {
             self::getResponse();
@@ -874,7 +862,7 @@ class Zone extends FileUpload
         $response = new JsonResponse();
         $response->setData($result);
         $response->send();
-        exit();
+        exit;
     }
 
     protected static function getSession()
@@ -886,11 +874,11 @@ class Zone extends FileUpload
                 ->get('request_stack')
                 ->getCurrentRequest()
                 ->getSession()
-                ;
+            ;
         }
 
         return System::getContainer()
             ->get('session')
-            ;
+        ;
     }
 }

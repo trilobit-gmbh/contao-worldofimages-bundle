@@ -24,9 +24,6 @@ use Trilobit\WorldofimagesBundle\TrilobitWorldofimagesBundle;
  */
 class Plugin implements BundlePluginInterface, RoutingPluginInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getBundles(ParserInterface $parser): array
     {
         return [
@@ -38,15 +35,42 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @throws \Exception
      */
     public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel)
     {
+
+        $version = (method_exists(\Contao\CoreBundle\ContaoCoreBundle::class, 'getVersion') ? \Contao\CoreBundle\ContaoCoreBundle::getVersion() : VERSION);
+
+        if (version_compare($version, '5.0', '<')
+            && version_compare($version, '5.x-dev', 'ne')
+        ) {
+            return $resolver
+                ->resolve(__DIR__.'/../Resources/config/routing.annotation.yml')
+                ->load(__DIR__.'/../Resources/config/routing.annotation.yml')
+                ;
+        }
+
+        return $resolver
+            ->resolve(__DIR__.'/../Resources/config/routing.attribute.yml')
+            ->load(__DIR__.'/../Resources/config/routing.attribute.yml')
+            ;
+
+        /*
+        if (version_compare($contaoVersion, '5.3', '>')
+            || version_compare($contaoVersion, '5.x-dev', 'eq')
+        ) {
+            return $resolver
+                ->resolve(__DIR__.'/../Resources/config/routing.attribute.yml')
+                ->load(__DIR__.'/../Resources/config/routing.attribute.yml')
+                ;
+        } else {
+        }
+
         return $resolver
             ->resolve(__DIR__.'/../Resources/config/routing.yml')
             ->load(__DIR__.'/../Resources/config/routing.yml')
-            ;
+        ;
+        */
     }
 }

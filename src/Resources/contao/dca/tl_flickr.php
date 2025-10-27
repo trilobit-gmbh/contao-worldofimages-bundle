@@ -12,7 +12,7 @@ use Contao\System;
 use Trilobit\WorldofimagesBundle\DataProvider\Configuration\ConfigurationProvider;
 use Trilobit\WorldofimagesBundle\FileUpload\Zone;
 
-//System::loadLanguageFile('tl_pexels');
+// System::loadLanguageFile('tl_pexels');
 
 $GLOBALS['TL_DCA']['tl_flickr'] = [
     'config' => [

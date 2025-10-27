@@ -19,8 +19,7 @@ $GLOBALS['TL_LANG']['MSC']['unsplash']['hint'] = '<p>Fotos zur Verfügung gestel
     .'</ul>'
     .'<br>'
     .'<p>API-Dokumentation: <a href="https://unsplash.com/developers" target="_blank" rel="noopener noreferrer"><u>unsplash.com/developers</u></a></p>'
-    .'<p>Beachten Sie bitte die <strong>Unsplash <a href="https://unsplash.com/terms" target="_blank" rel="noopener noreferrer"><u>Nutzungsbedingungen</u></a></strong>!</p>'
-;
+    .'<p>Beachten Sie bitte die <strong>Unsplash <a href="https://unsplash.com/terms" target="_blank" rel="noopener noreferrer"><u>Nutzungsbedingungen</u></a></strong>!</p>';
 $GLOBALS['TL_LANG']['MSC']['unsplash']['resultCount'] = 'Treffer';
 $GLOBALS['TL_LANG']['MSC']['unsplash']['cachedResult'] = 'Cache-Ergebnis; Um die Unsplash-API für alle schnell zu halten, werden Anfragen 24 Stunden zwischengespeichert.';
 

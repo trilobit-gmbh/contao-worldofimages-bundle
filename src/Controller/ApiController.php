@@ -15,9 +15,7 @@ use Trilobit\WorldofimagesBundle\FileUpload\Zone;
 
 class ApiController
 {
-    
     #[Route('/_trilobit/{slug}', name: self::class, defaults: ['_scope' => 'backend'])]
-
     public function __invoke($slug): void
     {
         if (!\in_array($slug, $GLOBALS['TRILOBIT']['worldofimages']['provider'], true)) {

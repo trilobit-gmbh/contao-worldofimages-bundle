@@ -19,8 +19,7 @@ $GLOBALS['TL_LANG']['MSC']['flickr']['hint'] = '<p>Photos provided by <a href="h
     .'</ul>'
     .'<br>'
     .'<p>API documentation: <a href="https://www.flickr.com/services/api/" target="_blank" rel="noopener noreferrer"><u>www.flickr.com/services/api/</u></a></p>'
-    .'<p>Please note the <strong>Flickr <a href="https://www.flickr.com/help/terms" target="_blank" rel="noopener noreferrer"><u>Terms & Conditions</u></a></strong>!</p>'
-;
+    .'<p>Please note the <strong>Flickr <a href="https://www.flickr.com/help/terms" target="_blank" rel="noopener noreferrer"><u>Terms & Conditions</u></a></strong>!</p>';
 $GLOBALS['TL_LANG']['MSC']['flickr']['resultCount'] = 'Hits';
 $GLOBALS['TL_LANG']['MSC']['flickr']['cachedResult'] = 'Cache result; To keep the Flickr API fast for everyone, requests are cached for 24 hours.';
 

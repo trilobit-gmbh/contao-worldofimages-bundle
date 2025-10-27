@@ -1,442 +1,430 @@
 <input type="hidden" name="action" value="<?= $this->provider; ?>upload">
 
-<section id="inform">
-    <h2 class="provider-powered-by">
-        <?= $this->poweredBy; ?>
-    </h2>
+<div class="worldofimages">
+    <section id="inform">
+        <h2 class="provider-powered-by">
+            <?= $this->poweredBy; ?>
+        </h2>
 
-    <div class="provider-link">
-        <?= $this->providerLink; ?>
-        <?= $this->trilobitLink; ?>
-    </div>
+        <div class="provider-link">
+            <?= $this->providerLink; ?>
+            <?= $this->trilobitLink; ?>
+        </div>
 
-    <div class="provider-hint">
-        <?= $this->providerHint; ?>
-    </div>
-</section>
+        <div class="provider-hint">
+            <?= $this->providerHint; ?>
+        </div>
+    </section>
 
-</div></div>
-
-<?= $this->palettes; ?>
+    <?= $this->palettes; ?>
+</div>
 
 <script>
-    //function initImageWorldProvider()
-    //{
-        //if (null === document.querySelector('.provider.search')) {
-        //    return;
-        //}
+    var init = false;
+    var submit;
+    var jumpTargets;
+    var images = document.querySelector('#images');
 
-        var images = document.querySelector('#images');
-        var pagination = document.querySelector('#pagination');
-        var page = <?= $this->page; ?>;
-        var pages = 1;
+    var pagination = document.querySelector('#pagination');
+    var page = <?= $this->page; ?>;
+    var pages = 1;
 
-        var user = '<?= $this->user; ?>';
-        var views = '<?= $this->views; ?>';
-        var likes = '<?= $this->likes; ?>';
-        var downloads = '<?= $this->downloads; ?>';
-        var tags = '<?= $this->tags; ?>';
-        var description = '<?= $this->description; ?>';
-        var color = '<?= $this->color; ?>';
+    var isCachedResult = '<?= $this->isCachedResult; ?>';
 
-        var isCachedResult = '<?= $this->isCachedResult; ?>';
+    var filterLegend = document.querySelector('[data-contao--toggle-fieldset-id-value="filter_legend"]');
+    if (null === filterLegend) {
+        filterLegend = document.querySelector('#pal_filter_legend');
+    }
 
-        var filterLegend = document.querySelector('[data-contao--toggle-fieldset-id-value="filter_legend"]');
-        if (null === filterLegend) {
-            filterLegend = document.querySelector('#pal_filter_legend');
-        }
+    var resultLegend = document.querySelector('[data-contao--toggle-fieldset-id-value="result_legend"]');
+    if (null === resultLegend) {
+        resultLegend = document.querySelector('#pal_result_legend');
+    }
 
-        var resultLegend = document.querySelector('[data-contao--toggle-fieldset-id-value="result_legend"]');
-        if (null === resultLegend) {
-            resultLegend = document.querySelector('#pal_result_legend');
-        }
+    function goToPage(page)
+    {
+        var data = '<?= $this->goToPage; ?>'
+        return data.replace("##PAGE##", page);
+    }
 
-        var submit;
+    function imagePagination(totalHits)
+    {
+        var paginationLinks = <?= $this->paginationLinks; ?>;
+        var htmlPagination;
+        var firstOffset;
+        var lastOffset;
+        var firstLink;
+        var lastLink;
 
-        function goToPage(page)
+        // get pages
+        pages = Math.ceil(totalHits / <?= $this->resultsPerPage; ?>);
+
+        // get links
+        paginationLinks = Math.floor(paginationLinks / 2);
+
+        firstOffset = page - paginationLinks - 1;
+
+        if (firstOffset > 0) firstOffset = 0;
+
+        lastOffset = page + paginationLinks - pages;
+
+        if (lastOffset < 0) lastOffset = 0;
+
+        firstLink = page - paginationLinks - lastOffset;
+
+        if (firstLink < 1) firstLink = 1;
+
+        lastLink = page + paginationLinks - firstOffset;
+
+        if (lastLink > pages) lastLink = pages;
+
+        // html: open pagination container
+        htmlPagination = ''
+            +'<p>'
+            +'<?= $this->totalPages; ?>'
+            +'</p>'
+            +'<ul>'
+        ;
+
+        pagination.classList.remove('invisible');
+
+        // html: previous
+        if (page > 1)
         {
-            var data = '<?= $this->goToPage; ?>'
-            return data.replace("##PAGE##", page);
-        }
-
-        function imagePagination(totalHits)
-        {
-            var paginationLinks = <?= $this->paginationLinks; ?>;
-            var htmlPagination;
-            var firstOffset;
-            var lastOffset;
-            var firstLink;
-            var lastLink;
-
-            // get pages
-            pages = Math.ceil(totalHits / <?= $this->resultsPerPage; ?>);
-
-            // get links
-            paginationLinks = Math.floor(paginationLinks / 2);
-
-            firstOffset = page - paginationLinks - 1;
-
-            if (firstOffset > 0) firstOffset = 0;
-
-            lastOffset = page + paginationLinks - pages;
-
-            if (lastOffset < 0) lastOffset = 0;
-
-            firstLink = page - paginationLinks - lastOffset;
-
-            if (firstLink < 1) firstLink = 1;
-
-            lastLink = page + paginationLinks - firstOffset;
-
-            if (lastLink > pages) lastLink = pages;
-
-            // html: open pagination container
-            htmlPagination = ''
-                +'<p>'
-                +'<?= $this->totalPages; ?>'
-                +'</p>'
-                +'<ul>'
-            ;
-
-            pagination.classList.remove('invisible');
-
-            // html: previous
-            if (page > 1)
-            {
-                htmlPagination += ''
-                    +'<li class="first">'
-                    +'<a href="#" onclick="return searchUpdate(1);" class="first" title="'+goToPage(1)+'">'
-                    +'<?= $this->first; ?>'
-                    +'</a>'
-                    +'</li>'
-                    +'<li class="previous">'
-                    +'<a href="#" onclick="return searchUpdate(page-1);" class="previous" title="'+goToPage(page-1)+'">'
-                    +'<?= $this->previous; ?>'
-                    +'</a>'
-                    +'</li>'
-                ;
-            }
-
-            // html: links
-            if (pages > 1)
-            {
-                for (i=firstLink; i<=lastLink; i++)
-                {
-                    if (i === page)
-                    {
-                        htmlPagination += ''
-                            +'<li>'
-                            +'<span class="active">'+page+'</span>'
-                            +'</li>'
-                        ;
-                    }
-                    else
-                    {
-                        htmlPagination += ''
-                            +'<li>'
-                            +'<a href="#" onclick="return searchUpdate('+i+');" class="link" title="'+goToPage(i)+'">'
-                            +i
-                            +'</a>'
-                            +'</li>'
-                        ;
-                    }
-                }
-            }
-
-            // html: next
-            if (page < pages)
-            {
-                htmlPagination += ''
-                    +'<li class="next">'
-                    +'<a href="#" onclick="return searchUpdate(page+1);" class="next" title="'+goToPage(page+1)+'">'
-                    +'<?= $this->next; ?>'
-                    +'</a>'
-                    +'</li>'
-                    +'<li class="last">'
-                    +'<a href="#" onclick="return searchUpdate('+pages+');" class="last" title="'+goToPage(pages)+'">'
-                    +'<?= $this->last; ?>'
-                    +'</a>'
-                    +'</li>'
-                ;
-            }
-
-            // html: close pagination container
             htmlPagination += ''
-                +'</ul>'
+                +'<li class="first">'
+                +'<a href="#" onclick="return searchUpdate(1);" class="first" title="'+goToPage(1)+'">'
+                +'<?= $this->first; ?>'
+                +'</a>'
+                +'</li>'
+                +'<li class="previous">'
+                +'<a href="#" onclick="return searchUpdate(page-1);" class="previous" title="'+goToPage(page-1)+'">'
+                +'<?= $this->previous; ?>'
+                +'</a>'
+                +'</li>'
             ;
-
-            pagination.innerHTML = htmlPagination;
         }
 
-        function imageList(jsonData)
+        // html: links
+        if (pages > 1)
         {
-            var strHtmlImages;
-
-            images.innerHTML = '<?= $this->noResult; ?>';
-
-            if (jsonData.count > 0)
+            for (i=firstLink; i<=lastLink; i++)
             {
-                strHtmlImages = ''
-                    +'<input type="hidden" name="tl_images" value="">'
-                    +'<input type="hidden" name="tl_imageIds" value="">'
-                    +'<input type="hidden" name="tl_cache" value="'+jsonData.__api__.cache+'">'
-                    +'<div class="widget">'
-                    +'<h3>'
-                    +jsonData.count+' <?= $this->resultCount; ?>'
-                    +'</h3>'
-                    +'</div>'
-                    +'<div class="flex-container">'
-                ;
-
-                for (var key in jsonData.__meta__)
+                if (i === page)
                 {
-                    if (jsonData.__meta__.hasOwnProperty(key))
-                    {
-                        var value = jsonData.__meta__[key];
-
-                        strHtmlImages += ''
-                            +'<div class="widget preview" id="preview_'+key+'">'
-                            +'<label for="image_'+key+ '">'
-                            +'<div class="image-container" style="background-image:url('+value.preview+')">'
-                            +'<a href="'+value.url+'" target="_blank"><?= ucfirst($this->provider); ?></a>'
-                            +'</div>'
-                            +'<br>'
-                            +'<input type="checkbox" id="image_'+key+'" value="'+key+'" name="tl_imageIds[]" onclick="clickImage(\''+key+'\');">'
-                            +'ID: <strong>'+key+'</strong>'
-                            +'<table class="tl_show">'
-                            +'<tbody>';
-
-                        if (undefined !== value.user) {
-                            strHtmlImages += '<tr>'
-                                +'<td><strong>'+user+':</strong></td>'
-                                +'<td>'+value.user+'</td>'
-                                +'</tr>';
-                        }
-                        if (undefined !== value.tags) {
-                            strHtmlImages += '<tr>'
-                                +'<td><strong>'+tags+':</strong></td>'
-                                +'<td>'+value.tags+'</td>'
-                                +'</tr>';
-                        }
-                        if (undefined !== value.description) {
-                            strHtmlImages += '<tr>'
-                                +'<td><strong>'+description+':</strong></td>'
-                                +'<td>'+value.description+'</td>'
-                                +'</tr>';
-                        }
-                        if (undefined !== value.color) {
-                            strHtmlImages += '<tr>'
-                                +'<td><strong>'+color+':</strong></td>'
-                                +'<td>'
-                                +'<span class="color" style="background:'+value.color.toLowerCase()+'"></span>'
-                                +value.color.toLowerCase()
-                                +'</td>'
-                                +'</tr>';
-                        }
-                        if (undefined !== value.downloads) {
-                            strHtmlImages += '<tr>'
-                                +'<td><strong>'+downloads+':</^strong></td>'
-                                +'<td>'+value.downloads+'</td>'
-                                +'</tr>';
-                        }
-                        if (undefined !== value.views) {
-                            strHtmlImages += '<tr>'
-                                +'<td><strong>'+views+':</strong></td>'
-                                +'<td>'+value.views+'</td>'
-                                +'</tr>';
-                        }
-                        if (undefined !== value.likes) {
-                            strHtmlImages += '<tr>'
-                                +'<td><strong>'+likes+':</strong></td>'
-                                +'<td>'+value.likes+'</td>'
-                                +'</tr>';
-                        }
-
-                        strHtmlImages += '</tbody>'
-                            +'</table>'
-                            +'</label>'
-                            +'</div>'
-                        ;
-                    }
+                    htmlPagination += ''
+                        +'<li>'
+                        +'<span class="active">'+page+'</span>'
+                        +'</li>'
+                    ;
                 }
-
-                strHtmlImages += '</div>';
-
-                strHtmlImages += (jsonData.__api__.cachedResult
-                        ? '<br clear="all"><?= $this->resultCached; ?>'
-                        : ''
-                );
-
-                images.innerHTML = strHtmlImages;
-                imagePagination(jsonData.count);
-
-                new Fx.Scroll(window).toElement(resultLegend);
+                else
+                {
+                    htmlPagination += ''
+                        +'<li>'
+                        +'<a href="#" onclick="return searchUpdate('+i+');" class="link" title="'+goToPage(i)+'">'
+                        +i
+                        +'</a>'
+                        +'</li>'
+                    ;
+                }
             }
         }
 
-        function clickImage(item)
+        // html: next
+        if (page < pages)
         {
-            document.querySelector('#preview_'+item).classList.toggle('selected');
-
-            submit.classList.add('invisible');
-            if (0 !== document.querySelectorAll('input[name*="tl_imageIds"][type="checkbox"]:checked').length) {
-                submit.classList.remove('invisible');
-            }
+            htmlPagination += ''
+                +'<li class="next">'
+                +'<a href="#" onclick="return searchUpdate(page+1);" class="next" title="'+goToPage(page+1)+'">'
+                +'<?= $this->next; ?>'
+                +'</a>'
+                +'</li>'
+                +'<li class="last">'
+                +'<a href="#" onclick="return searchUpdate('+pages+');" class="last" title="'+goToPage(pages)+'">'
+                +'<?= $this->last; ?>'
+                +'</a>'
+                +'</li>'
+            ;
         }
 
-        function exception(jsonData)
+        // html: close pagination container
+        htmlPagination += ''
+            +'</ul>'
+        ;
+
+        pagination.innerHTML = htmlPagination;
+    }
+
+    function imageList(jsonData)
+    {
+        var strHtmlImages;
+
+        images.innerHTML = '<?= $this->noResult; ?>';
+
+        if (jsonData.count > 0)
         {
-            images.innerHTML = '<br clear="all">'
-                +'<div class="widget tl_error">'
-                +'<p>'
-                +'<strong>#'+jsonData.__api__.exceptionId+'</strong>'
-                +'</p>'
-                +'<p>'
-                +jsonData.__api__.exceptionMessage
-                +'</p>'
+            strHtmlImages = ''
+                +'<input type="hidden" name="tl_images" value="">'
+                +'<input type="hidden" name="tl_imageIds" value="">'
+                +'<input type="hidden" name="tl_cache" value="'+jsonData.__api__.cache+'">'
+                +'<div class="widget">'
+                +'<h3>'
+                +jsonData.count+' <?= $this->resultCount; ?>'
+                +'</h3>'
                 +'</div>'
-            ;
-        }
-
-        function api(search)
-        {
-            pagination.innerHTML = '&nbsp;';
-            images.innerHTML = '<div class="spinner"></div>';
-
-            var xhr = new XMLHttpRequest();
-            var url ='<?= $this->url; ?>'
-                +'?<?= $this->queryKey; ?>='+encodeURIComponent(search)
-                +'<?= $this->queryParameter; ?>'
-                +'&page='+page
+                +'<div class="flex-container">'
             ;
 
-            xhr.open('GET', url);
-            xhr.onreadystatechange = function()
+            for (var key in jsonData.__meta__)
             {
-                var jsonData = jsonData || {};
-
-                if (   this.status === 200
-                    && this.readyState === 4
-                )
+                if (jsonData.__meta__.hasOwnProperty(key))
                 {
-                    jsonData = JSON.parse(this.responseText);
+                    var value = jsonData.__meta__[key];
 
-                    if (   jsonData
-                        && jsonData.__api__
-                        && jsonData.__api__.exceptionId
-                    )
-                    {
-                        exception(jsonData);
+                    strHtmlImages += ''
+                        +'<div class="preview" id="preview_'+key+'">'
+                        +'<label for="image_'+key+ '">'
+                        +'<div class="image-container" style="background-image:url('+value.preview+')">'
+                        +'<a href="'+value.url+'" target="_blank" class="hidden"><?= ucfirst($this->provider); ?></a>'
+                        +'</div>'
+                        +'<br>'
+                        +'<input type="checkbox" id="image_'+key+'" value="'+key+'" name="tl_imageIds[]" onclick="clickImage(\''+key+'\');">'
+                        +'ID: <strong>'+key+'</strong>'
+                        +'<table class="tl_show">'
+                        +'<tbody>';
+
+                    if (undefined !== value.user) {
+                        strHtmlImages += '<tr>'
+                            +'<td><strong><?= $this->user; ?>:</strong></td>'
+                            +'<td>'+value.user+'</td>'
+                            +'</tr>';
                     }
-                    else
-                    {
-                        imageList(jsonData);
+                    if (undefined !== value.tags) {
+                        strHtmlImages += '<tr>'
+                            +'<td><strong><?= $this->tags; ?>:</strong></td>'
+                            +'<td>'+value.tags+'</td>'
+                            +'</tr>';
+                    }
+                    if (undefined !== value.description) {
+                        strHtmlImages += '<tr>'
+                            +'<td><strong><?= $this->description; ?>:</strong></td>'
+                            +'<td>'+value.description+'</td>'
+                            +'</tr>';
+                    }
+                    if (undefined !== value.color) {
+                        strHtmlImages += '<tr>'
+                            +'<td><strong><?= $this->color; ?>:</strong></td>'
+                            +'<td>'
+                            +'<span class="color" style="background:'+value.color.toLowerCase()+'"></span>'
+                            +value.color.toLowerCase()
+                            +'</td>'
+                            +'</tr>';
+                    }
+                    if (undefined !== value.downloads) {
+                        strHtmlImages += '<tr>'
+                            +'<td><strong><?= $this->downloads; ?>:</^strong></td>'
+                            +'<td>'+value.downloads+'</td>'
+                            +'</tr>';
+                    }
+                    if (undefined !== value.views) {
+                        strHtmlImages += '<tr>'
+                            +'<td><strong><?= $this->views; ?>:</strong></td>'
+                            +'<td>'+value.views+'</td>'
+                            +'</tr>';
+                    }
+                    if (undefined !== value.likes) {
+                        strHtmlImages += '<tr>'
+                            +'<td><strong><?= $this->likes; ?>:</strong></td>'
+                            +'<td>'+value.likes+'</td>'
+                            +'</tr>';
                     }
 
-                    return false;
+                    strHtmlImages += '<tr>'
+                        +'<td><strong><?= $this->link; ?></strong></td>'
+                        +'<td><a href="'+value.url+'" target="_blank"><?= $this->linkIntro.' '.ucfirst($this->provider); ?></a></td>'
+                        +'</tr>';
+
+                    strHtmlImages += '</tbody>'
+                        +'</table>'
+                        +'</label>'
+                        +'</div>'
+                    ;
                 }
-
-                jsonData = jsonData || {};
-                jsonData.__api__ = jsonData.__api__ || {};
-
-                // todo
-                jsonData.__api__.exceptionId = this.status;
-                jsonData.__api__.exceptionMessage = '[ERROR '+this.status+'] Please try again...';
-
-                exception(jsonData);
-
-            };
-            xhr.send();
-
-            return false;
-        }
-
-        function searchUpdate(newPage)
-        {
-            if (newPage !== undefined)
-            {
-                page = newPage;
             }
 
-            resultLegend.classList.remove('collapsed');
-            filterLegend.classList.add('collapsed');
-            pagination.classList.add('invisible');
+            strHtmlImages += '</div>';
 
-            var search = document.querySelector('[name="searchQuery"]').value;
+            strHtmlImages += (jsonData.__api__.cachedResult
+                    ? '<br clear="all"><?= $this->resultCached; ?>'
+                    : ''
+            );
 
-            if (   undefined === search[0]
-                || '' === search[0]
+            images.innerHTML = strHtmlImages;
+            imagePagination(jsonData.count);
+
+            new Fx.Scroll(window).toElement(resultLegend);
+        }
+    }
+
+    function clickImage(item)
+    {
+        document.querySelector('#preview_'+item).classList.toggle('selected');
+
+        submit.classList.add('invisible');
+        if (0 !== document.querySelectorAll('input[name*="tl_imageIds"][type="checkbox"]:checked').length) {
+            submit.classList.remove('invisible');
+        }
+    }
+
+    function exception(jsonData)
+    {
+        images.innerHTML = '<br clear="all">'
+            +'<div class="widget tl_error">'
+            +'<p>'
+            +'<strong>#'+jsonData.__api__.exceptionId+'</strong>'
+            +'</p>'
+            +'<p>'
+            +jsonData.__api__.exceptionMessage
+            +'</p>'
+            +'</div>'
+        ;
+    }
+
+    function api(search)
+    {
+        pagination.innerHTML = '&nbsp;';
+        images.innerHTML = '<div class="spinner"></div>';
+
+        var xhr = new XMLHttpRequest();
+        var url ='<?= $this->url; ?>'
+            +'?<?= $this->queryKey; ?>='+encodeURIComponent(search)
+            +'<?= $this->queryParameter; ?>'
+            +'&page='+page
+        ;
+
+        xhr.open('GET', url);
+        xhr.onreadystatechange = function()
+        {
+            var jsonData = jsonData || {};
+
+            if (   this.status === 200
+                && this.readyState === 4
             )
             {
-                images.innerHTML = '<?= $this->noResult; ?>';
+                jsonData = JSON.parse(this.responseText);
+
+                if (   jsonData
+                    && jsonData.__api__
+                    && jsonData.__api__.exceptionId
+                )
+                {
+                    exception(jsonData);
+                }
+                else
+                {
+                    imageList(jsonData);
+                }
 
                 return false;
             }
 
-            api(search);
+            jsonData = jsonData || {};
+            jsonData.__api__ = jsonData.__api__ || {};
+
+            // todo
+            jsonData.__api__.exceptionId = this.status;
+            jsonData.__api__.exceptionMessage = '[ERROR '+this.status+'] Please try again...';
+
+            exception(jsonData);
+
+        };
+        xhr.send();
+
+        return false;
+    }
+
+    function searchUpdate(newPage)
+    {
+        if (newPage !== undefined)
+        {
+            page = newPage;
+        }
+
+        resultLegend.classList.remove('collapsed');
+        filterLegend.classList.add('collapsed');
+        pagination.classList.add('invisible');
+
+        var search = document.querySelector('[name="searchQuery"]').value;
+
+        if (   undefined === search[0]
+            || '' === search[0]
+        )
+        {
+            images.innerHTML = '<?= $this->noResult; ?>';
 
             return false;
         }
 
-        function searchProvider()
-        {
-            if (null === document.querySelector('.provider.search')) {
-                return;
-            }
+        api(search);
 
-            document.querySelector('.provider.search').addEventListener(
-                'click',
-                function(event) {
-                    event.preventDefault();
+        return false;
+    }
 
-                    searchUpdate(1);
-
-                    return false;
-                },
-                false
-            );
+    function searchProvider()
+    {
+        if (init) {
+            return;
         }
 
-        <?php if (isset($GLOBALS['TL_CONFIG']['page'])) { ?>
-        if (isCachedResult) searchUpdate(<?= $GLOBALS['TL_CONFIG']['page']; ?>);
-        <?php } ?>
+        if (null === document.querySelector('.provider.search')) {
+            return;
+        }
 
-        //searchProvider();
-    //}
-
-    /*
-    window.addEventListener("load", function(event) {
-        return;
         submit = document.querySelector('div[class="tl_formbody_submit"]');
-
         submit.classList.add('invisible');
 
-        var jumpTargets = document.querySelector('div[class="jump-targets"]');
+        jumpTargets = document.querySelector('div[class="jump-targets"]');
         if (null !== jumpTargets) {
             var buttons = document.querySelector('#tl_buttons');
 
             buttons.before(jumpTargets);
         }
-    });
-    */
+
+        document.querySelector('.provider.search').addEventListener(
+            'click',
+            function(event) {
+                event.preventDefault();
+
+                searchUpdate(1);
+
+                return false;
+            },
+            false
+        );
+
+        init = true;
+    }
+
+    <?php if (isset($GLOBALS['TL_CONFIG']['page'])) { ?>
+    if (isCachedResult) searchUpdate(<?= $GLOBALS['TL_CONFIG']['page']; ?>);
+    <?php } ?>
 
     window.addEventListener("turbo:before-fetch-response", function(event) {
-        //initImageWorldProvider();
+        console.log('turbo:before-fetch-response');
         searchProvider();
     });
 
     window.addEventListener("load", function(event) {
-        //initImageWorldProvider();
+        console.log('load')
         searchProvider();
     });
 
     window.setTimeout(
         (function() {
-            //initImageWorldProvider();
+            console.log('setTimeout')
             searchProvider();
         }),
         500
     );
 </script>
-
-<div><div>

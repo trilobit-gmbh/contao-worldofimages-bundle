@@ -1,6 +1,6 @@
 
 /* todo: make complete */
-
+/*
 .header_imageworld_item {
     display: none;
 }
@@ -99,6 +99,7 @@
 .header_imageworld.submenu ul.menu_level_1 li+li:hover {
     background-color: #eee;
 }
+*/
 
 .provider-powered-by {
     margin-bottom: 1em;
@@ -133,7 +134,7 @@
 }
 
 .provider-hint {
-    background-color: #f6f6f8;
+    background-color: var(--code-bg);
     padding: 1em;
 }
 
@@ -149,19 +150,27 @@
 
 /*noinspection CssUnusedSymbol*/
 #images .flex-container {
+    /*
     display: flex;
     flex-wrap: wrap;
+    */
+    display: grid;
+    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
 }
 
 /*noinspection CssUnusedSymbol*/
 #images .preview {
-    border: 1px solid lightgray;
-    margin-bottom: 30px;
-    padding: 2px;
+    border: 1px solid var(--content-border);
+    padding: 6px;
     overflow: hidden;
+    /*
+    margin-bottom: 30px;
     max-width: 490px;
     flex-grow: 1;
     width: 245px;
+    */
 }
 
 #images .preview label {
@@ -170,13 +179,14 @@
 
 /*noinspection CssUnusedSymbol,CssUnusedSymbol*/
 #images .preview.selected {
-    border-color: #589b0e;
-    background: #fdfdfd;
+    border-color: var(--green);
+    background: var(--active-bg);
 }
 
 /*noinspection CssUnusedSymbol*/
 #images .preview .image-container {
-    width: 100%;
+    width: calc(100% + 12px);
+    margin: -6px -6px 0 -6px;
     height: 250px;
     display: table;
     background-size: cover;
@@ -201,7 +211,7 @@
     display: inline-block;
     width: 32px;
     height: 16px;
-    border: 1px solid #f6f6f8;
+    border: 1px solid var(--content-border);
     margin-right: 6px;
     float: left;
 }
@@ -235,7 +245,7 @@ fieldset[data-contao--toggle-fieldset-id-value="result_legend"] .tl_box {
     width: 40px;
     height: 40px;
     margin: 100px auto;
-    background-color: #333;
+    background-color: var(--progress-running);
     border-radius: 100%;
     -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
     animation: sk-scaleout 1.0s infinite ease-in-out;
@@ -270,4 +280,9 @@ fieldset[data-contao--toggle-fieldset-id-value="result_legend"] .tl_box {
     padding: 7px 12px;
     transition: background .2s ease;
     margin: 3px 0;
+}
+
+div.worldofimages [data-controller="contao--jump-targets"] {
+    margin-left: -15px;
+    margin-right: -15px;
 }
