@@ -78,7 +78,7 @@ class Zone extends FileUpload
             : $result['__api__']['parameter'][$config['query_key']] ?? ''
         ;
 
-        $buffer = \Safe\preg_replace(
+        $buffer = preg_replace(
             '/<input(.*?)name="searchQuery"(.*?)value=".*?"(.*?)>/',
             '<input$1name="searchQuery"$2value="'.$defaultValue.'"$3>',
             $buffer
