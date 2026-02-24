@@ -21,7 +21,7 @@ $GLOBALS['TL_DCA']['tl_flickr'] = [
     ],
     'palettes' => [
         'default' => '{search_legend},searchQuery,searchSubmit;'
-            .'{filter_legend},flickr_search,flickr_tag_mode,flickr_safe_search,flickr_sort,flickr_content_type,flickr_min_upload_date,flickr_max_upload_date,flickr_min_taken_date,flickr_max_taken_date,flickr_contacts,flickr_group_id,flickr_has_geo,flickr_geo_context,flickr_lat,flickr_lon;'
+            .'{filter_legend},flickr_search,flickr_tag_mode,flickr_safe_search,flickr_sort,flickr_content_types,flickr_min_upload_date,flickr_max_upload_date,flickr_min_taken_date,flickr_max_taken_date,flickr_contacts,flickr_group_id,flickr_has_geo,flickr_geo_context,flickr_lat,flickr_lon;'
             .'{result_legend},images,pagination',
     ],
     'fields' => [
@@ -32,31 +32,19 @@ $GLOBALS['TL_DCA']['tl_flickr'] = [
             'eval' => ['chosen' => true, 'tl_class' => 'clr w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
-        'flickr_min_upload_date' => [
-            'inputType' => 'text',
-            'eval' => ['rgxp' => 'date', 'datepicker' => true, 'tl_class' => 'w50'],
-            'sql' => "varchar(10) NOT NULL default ''",
-        ],
-        'flickr_max_upload_date' => [
-            'inputType' => 'text',
-            'eval' => ['rgxp' => 'date', 'datepicker' => true, 'tl_class' => 'w50'],
-            'sql' => "varchar(10) NOT NULL default ''",
-        ],
-        'flickr_min_taken_date' => [
-            'inputType' => 'text',
-            'eval' => ['rgxp' => 'date', 'datepicker' => true, 'tl_class' => 'w50'],
-            'sql' => "varchar(10) NOT NULL default ''",
-        ],
-        'flickr_max_taken_date' => [
-            'inputType' => 'text',
-            'eval' => ['rgxp' => 'date', 'datepicker' => true, 'tl_class' => 'w50'],
-            'sql' => "varchar(10) NOT NULL default ''",
-        ],
         'flickr_tag_mode' => [
             'inputType' => 'select',
             'options_callback' => [ConfigurationProvider::class, 'flickrGetTagMode'],
             'reference' => &$GLOBALS['TL_LANG']['tl_flickr']['options']['tag_mode'],
             'eval' => ['chosen' => true, 'includeBlankOption' => true, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+
+        'flickr_safe_search' => [
+            'inputType' => 'select',
+            'options_callback' => [ConfigurationProvider::class, 'flickrGetSafeSearch'],
+            'reference' => &$GLOBALS['TL_LANG']['tl_flickr']['options']['safe_search'],
+            'eval' => ['chosen' => true, 'includeBlankOption' => true, 'tl_class' => 'clr w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
         'flickr_sort' => [
@@ -66,18 +54,39 @@ $GLOBALS['TL_DCA']['tl_flickr'] = [
             'eval' => ['chosen' => true, 'includeBlankOption' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
-        'flickr_safe_search' => [
-            'inputType' => 'select',
-            'options_callback' => [ConfigurationProvider::class, 'flickrGetSafeSearch'],
-            'reference' => &$GLOBALS['TL_LANG']['tl_flickr']['options']['safe_search'],
-            'eval' => ['chosen' => true, 'includeBlankOption' => true, 'tl_class' => 'w50'],
-            'sql' => "varchar(255) NOT NULL default ''",
+
+        'flickr_min_upload_date' => [
+            'inputType' => 'text',
+            'eval' => ['rgxp' => 'date', 'datepicker' => true, 'tl_class' => 'clr w50 wizard widget'],
+            'sql' => "varchar(10) NOT NULL default ''",
         ],
+        'flickr_max_upload_date' => [
+            'inputType' => 'text',
+            'eval' => ['rgxp' => 'date', 'datepicker' => true, 'tl_class' => 'w50 wizard widget'],
+            'sql' => "varchar(10) NOT NULL default ''",
+        ],
+        'flickr_min_taken_date' => [
+            'inputType' => 'text',
+            'eval' => ['rgxp' => 'date', 'datepicker' => true, 'tl_class' => 'w50 wizard widget'],
+            'sql' => "varchar(10) NOT NULL default ''",
+        ],
+        'flickr_max_taken_date' => [
+            'inputType' => 'text',
+            'eval' => ['rgxp' => 'date', 'datepicker' => true, 'tl_class' => 'w50 wizard widget'],
+            'sql' => "varchar(10) NOT NULL default ''",
+        ],
+
         'flickr_content_types' => [
             'inputType' => 'select',
             'options_callback' => [ConfigurationProvider::class, 'flickrGetContentTypes'],
             'reference' => &$GLOBALS['TL_LANG']['tl_flickr']['options']['content_types'],
-            'eval' => ['chosen' => true, 'includeBlankOption' => true, 'tl_class' => 'w50'],
+            'eval' => ['chosen' => true, 'includeBlankOption' => true, 'tl_class' => 'clr w50'],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+
+        'flickr_contacts' => [
+            'inputType' => 'text',
+            'eval' => ['tl_class' => 'clr w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
         'flickr_group_id' => [
@@ -85,11 +94,7 @@ $GLOBALS['TL_DCA']['tl_flickr'] = [
             'eval' => ['tl_class' => 'w50'],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
-        'flickr_contacts' => [
-            'inputType' => 'text',
-            'eval' => ['tl_class' => 'clr w50'],
-            'sql' => "varchar(255) NOT NULL default ''",
-        ],
+
         'flickr_has_geo' => [
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'clr w50'],
@@ -124,6 +129,7 @@ $GLOBALS['TL_DCA']['tl_flickr'] = [
             'input_field_callback' => [Zone::class, 'onSearchSubmitField'],
             'eval' => ['tl_class' => 'w50'],
         ],
+
         'images' => [
             'inputType' => 'text',
             'input_field_callback' => [Zone::class, 'onImagesField'],

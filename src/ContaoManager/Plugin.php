@@ -39,8 +39,7 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
      */
     public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel)
     {
-
-        $version = (method_exists(\Contao\CoreBundle\ContaoCoreBundle::class, 'getVersion') ? \Contao\CoreBundle\ContaoCoreBundle::getVersion() : VERSION);
+        $version = (method_exists(ContaoCoreBundle::class, 'getVersion') ? ContaoCoreBundle::getVersion() : VERSION);
 
         if (version_compare($version, '5.0', '<')
             && version_compare($version, '5.x-dev', 'ne')
@@ -48,13 +47,13 @@ class Plugin implements BundlePluginInterface, RoutingPluginInterface
             return $resolver
                 ->resolve(__DIR__.'/../Resources/config/routing.annotation.yml')
                 ->load(__DIR__.'/../Resources/config/routing.annotation.yml')
-                ;
+            ;
         }
 
         return $resolver
             ->resolve(__DIR__.'/../Resources/config/routing.attribute.yml')
             ->load(__DIR__.'/../Resources/config/routing.attribute.yml')
-            ;
+        ;
 
         /*
         if (version_compare($contaoVersion, '5.3', '>')

@@ -1,6 +1,6 @@
 {
     "name": "trilobit-gmbh/contao-worldofimages-bundle",
-    "description": "Contao 4 / Contao 5 world of images / Bilderwelten bundle",
+    "description": "Contao 5 world of images / Bilderwelten bundle",
     "type": "contao-bundle",
     "license": "LGPL-3.0-or-later",
     "authors": [
@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "php": "^8.0",
-        "contao/core-bundle": "^4.13 || ^5.3"
+        "php": "^8.3",
+        "contao/core-bundle": "^5.7"
     },
     "require-dev": {
         "contao/easy-coding-standard": "^3.0",

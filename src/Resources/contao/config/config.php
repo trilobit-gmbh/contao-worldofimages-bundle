@@ -8,7 +8,6 @@ declare(strict_types=1);
  * @license    LGPL-3.0-or-later
  */
 
-use Contao\Input;
 use Contao\System;
 
 $request = System::getContainer()
@@ -18,10 +17,6 @@ $request = System::getContainer()
 
 if ($request && System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest($request)) {
     $GLOBALS['TL_CSS'][] = 'bundles/trilobitworldofimages/css/backend.css';
-
-    if (empty(Input::get('source'))) {
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/trilobitworldofimages/js/backend.js';
-    }
 }
 
 $GLOBALS['TRILOBIT']['worldofimages']['provider'] = [

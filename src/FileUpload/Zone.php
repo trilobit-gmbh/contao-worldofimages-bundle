@@ -39,43 +39,34 @@ class Zone extends FileUpload
         System::loadLanguageFile('tl_'.$provider);
         Controller::loadDataContainer('tl_'.$provider);
 
+        $defaultValue = !empty(Input::get('new'))
+            ? ''
+            : $result['__api__']['parameter'][$config['query_key']] ?? '';
+
+        $referer = System::getContainer()->get('router')->generate('contao_backend', ['do' => 'files']);
         $palette = new DC_File('tl_'.$provider);
 
         $buffer = $palette->edit();
 
-        $buffer = str_replace(
-            [
-                '##poweredBy##',
-                '##providerLink##',
-                '##trilobitLink##',
-                '##providerHint##',
-            ],
-            [
-                $GLOBALS['TL_LANG']['MSC'][$provider]['poweredBy'],
-                $GLOBALS['TL_LANG']['MSC'][$provider]['providerLink'],
-                $GLOBALS['TL_LANG']['MSC'][$provider]['trilobitLink'],
-                $GLOBALS['TL_LANG']['MSC'][$provider]['hint'],
-            ],
+        $buffer = preg_replace(
+            '/<form(.*)/is',
+            '<div id="tl_buttons">
+<a href="'.$referer.'" class="header_back" title="'.StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']).'" accesskey="b" data-action="contao--scroll-offset#store">'.$GLOBALS['TL_LANG']['MSC']['backBT'].'</a>
+</div><form$1',
             $buffer
         );
 
         $buffer = preg_replace(
-            [
-                '/<form.*?>(.*)<\/form>/is',
-                '/<input type="hidden" name="FORM_SUBMIT" value=".*?">/is',
-                '/<input type="hidden" name="REQUEST_TOKEN" value=".*?">/is',
-                '/<div class="tl_submit_container">.*?<\/div>/is',
-                '/<div class="tl_formbody_submit">.*?<\/div>/is',
-                '/<div id="tl_buttons">.*?<\/div>/is',
-                '/<div class="tl_formbody_edit">(.*)<\/div>/is',
-            ],
-            '$1',
+            '/<input type="hidden" name="FORM_SUBMIT" value=".*?">/si',
+            '<input type="hidden" name="FORM_SUBMIT" value="tl_upload">',
             $buffer
         );
 
-        $defaultValue = !empty(Input::get('new'))
-            ? ''
-            : $result['__api__']['parameter'][$config['query_key']] ?? '';
+        $buffer = preg_replace(
+            '/^(.*?)<input type="hidden"(.*)$/si',
+            '$1<input type="hidden" name="action" value="'.$provider.'upload"><input type="hidden"$2',
+            $buffer
+        );
 
         $buffer = preg_replace(
             '/<input(.*?)name="searchQuery"(.*?)value=".*?"(.*?)>/',
@@ -94,9 +85,9 @@ class Zone extends FileUpload
                 '.$GLOBALS['TL_LANG']['MSC']['woi_search'][0].'
             </h3>
 
-            <a class="tl_submit provider search" title="'.$GLOBALS['TL_LANG']['MSC']['woi_search'][1].'">
+            <button type="woi" class="tl_submit provider search" title="'.$GLOBALS['TL_LANG']['MSC']['woi_search'][1].'">
                 '.$GLOBALS['TL_LANG']['MSC']['woi_search'][2].'
-            </a>
+            </button>
 
             <p class="tl_help tl_tip">
                 '.$GLOBALS['TL_LANG']['MSC']['woi_search'][1].'
@@ -112,7 +103,7 @@ class Zone extends FileUpload
 
     public static function onPaginationField(DataContainer $dc, string $label): string
     {
-        return '<nav id="pagination" class="invisible pagination pagination-lp" aria-label="'.$GLOBALS['TL_LANG']['MSC']['pagination'].'"></nav>';
+        return '<nav id="pagination" class="tl_pagination tl_pagination-lp" role="navigation" aria-label="'.$GLOBALS['TL_LANG']['MSC']['pagination'].'"></nav>';
     }
 
     protected function setUploader(string $provider): void
@@ -126,6 +117,7 @@ class Zone extends FileUpload
 
             $zone = '\\Trilobit\\WorldofimagesBundle\\FileUpload\\'.ucfirst($provider).'Zone';
             $zoneClass = new $zone();
+
             $this->User->uploader = $zoneClass::class;
         }
     }
@@ -265,14 +257,8 @@ class Zone extends FileUpload
         $template->providerLink = $GLOBALS['TL_LANG']['MSC'][$provider]['providerLink'];
         $template->providerHint = $GLOBALS['TL_LANG']['MSC'][$provider]['hint'];
         $template->resultCount = $GLOBALS['TL_LANG']['MSC'][$provider]['resultCount'];
-        $template->resultCached = '<div class="widget"><p>'
-            .StringUtil::specialchars($GLOBALS['TL_LANG']['MSC'][$provider]['cachedResult'])
-            .'</p></div>';
-        $template->noResult = ''
-            .'<h3><label></label></h3>'
-            .'<p>'
-            .StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['noResult'])
-            .'</p>';
+        $template->resultCached = StringUtil::specialchars($GLOBALS['TL_LANG']['MSC'][$provider]['cachedResult']);
+        $template->noResult = StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['noResult']);
         $template->isCachedResult = $cachedResult ? 'true' : 'false';
 
         $template->first = StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['first']);
@@ -542,6 +528,13 @@ class Zone extends FileUpload
 
             $zone->reload();
         }
+
+        // Reload
+        if (null !== Input::post('saveNclose')) {
+            $this->redirect($this->getReferer());
+        }
+
+        // $this->reload();
 
         return $uploaded;
     }
