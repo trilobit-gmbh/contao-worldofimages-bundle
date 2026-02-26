@@ -4,7 +4,7 @@
 
 <turbo-stream action="replace" target="tl_buttons">
     <template>
-        <?= $this->palettes ?>
+        <?= $this->palettes; ?>
     </template>
 </turbo-stream>
 
@@ -12,8 +12,7 @@
     <template>
         <script async>
             window.addEventListener("turbo:before-cache", function(event) {
-                let target = document.querySelector('#tl_files');
-                if (null != target) {
+                if (null != document.querySelector('#tl_files')) {
                     document.querySelector('#tl_files').remove();
                 }
             });
@@ -21,26 +20,26 @@
             Turbo.cache.exemptPageFromCache();
 
             function init() {
-                if (null === document.querySelector('button[type="woi"]')) {
+                if (null === document.querySelector('button[type="woi_search"]')) {
                     return;
                 }
 
                 window.setTimeout(
                     function() {
-                        let source = document.querySelector('.tl_message');
+                        let message = document.querySelector('.tl_message');
 
-                        if (null !== source) {
-                            let target = document.querySelector('#inform');
-                            target.prepend(source);
+                        if (null !== message) {
+                            let target = document.querySelector('#woi_inform');
+                            target.prepend(message);
                         }
                     },
-                    250
+                    500
                 );
 
                 submit = document.querySelector('.tl_formbody_submit');
                 submit.classList.add('invisible');
 
-                document.querySelector('.provider.search').addEventListener(
+                document.querySelector('button[type="woi_search"]').addEventListener(
                     'click',
                     function(event) {
                         event.preventDefault();
@@ -61,10 +60,10 @@
             var images = document.querySelector('#images');
 
             var pagination = document.querySelector('#pagination');
-            var page = <?= $this->page ?>;
+            var page = <?= $this->page; ?>;
             var pages = 1;
 
-            var isCachedResult = '<?= $this->isCachedResult ?>';
+            var isCachedResult = '<?= $this->isCachedResult; ?>';
 
             var filterLegend = document.querySelector('[data-contao--toggle-fieldset-id-value="filter_legend"]');
             if (null === filterLegend) {
@@ -77,64 +76,54 @@
             }
 
             <?php if (isset($GLOBALS['TL_CONFIG']['page'])) { ?>
-            if (isCachedResult) searchUpdate(<?= $GLOBALS['TL_CONFIG']['page'] ?>);
+            if (isCachedResult) searchUpdate(<?= $GLOBALS['TL_CONFIG']['page']; ?>);
             <?php } ?>
 
             function goToPage(page) {
-                let data = '<?= $this->goToPage ?>'
+                let data = '<?= $this->goToPage; ?>'
                 return data.replace("##PAGE##", page);
             }
 
             function imagePagination(totalHits) {
                 let buffer;
-                let paginationLinks = <?= $this->paginationLinks ?>;
+                let paginationLinks; // = <?= $this->paginationLinks; ?>;
                 let firstOffset;
                 let lastOffset;
                 let firstLink;
                 let lastLink;
 
-                // get pages
-                pages = Math.ceil(totalHits / <?= $this->resultsPerPage ?>);
+                pages = Math.ceil(totalHits / <?= $this->resultsPerPage; ?>);
 
-                // get links
-                paginationLinks = Math.floor(paginationLinks / 2);
+                paginationLinks = Math.floor(<?= $this->paginationLinks; ?> / 2);
 
                 firstOffset = page - paginationLinks - 1;
-
                 if (firstOffset > 0) firstOffset = 0;
 
                 lastOffset = page + paginationLinks - pages;
-
                 if (lastOffset < 0) lastOffset = 0;
 
                 firstLink = page - paginationLinks - lastOffset;
-
                 if (firstLink < 1) firstLink = 1;
 
                 lastLink = page + paginationLinks - firstOffset;
-
                 if (lastLink > pages) lastLink = pages;
 
-                // html: open pagination container
-                buffer = '<p><?= $this->totalPages ?></p>'
-                    +'<ul>'
-                ;
+                buffer = '<p><?= $this->totalPages; ?></p>'
+                    +'<ul>';
 
                 pagination.classList.remove('invisible');
 
-                // html: previous
                 if (page > 1) {
                     buffer += ''
                         +'<li class="first">'
-                        +'<button onclick="return searchUpdate(1);" class="first" title="'+goToPage(1)+'"> <?= $this->first ?> </button>'
+                        +'<button onclick="return searchUpdate(1);" class="first" title="'+goToPage(1)+'"> <?= $this->first; ?> </button>'
                         +'</li>'
                         +'<li class="previous">'
-                        +'<button onclick="return searchUpdate(page-1);" class="previous" title="'+goToPage(page-1)+'"> <?= $this->previous ?> </button>'
+                        +'<button onclick="return searchUpdate(page-1);" class="previous" title="'+goToPage(page-1)+'"> <?= $this->previous; ?> </button>'
                         +'</li>'
                     ;
                 }
 
-                // html: links
                 if (pages > 1) {
                     for (i=firstLink; i<=lastLink; i++) {
                         if (i === page) {
@@ -153,19 +142,17 @@
                     }
                 }
 
-                // html: next
                 if (page < pages) {
                     buffer += ''
                         +'<li class="next">'
-                        +'<button onclick="return searchUpdate(page+1);" class="next" title="'+goToPage(page+1)+'"> <?= $this->next ?> </button>'
+                        +'<button onclick="return searchUpdate(page+1);" class="next" title="'+goToPage(page+1)+'"> <?= $this->next; ?> </button>'
                         +'</li>'
                         +'<li class="last">'
-                        +'<button onclick="return searchUpdate('+pages+');" class="last" title="'+goToPage(pages)+'"> <?= $this->last ?> </button>'
+                        +'<button onclick="return searchUpdate('+pages+');" class="last" title="'+goToPage(pages)+'"> <?= $this->last; ?> </button>'
                         +'</li>'
                     ;
                 }
 
-                // html: close pagination container
                 buffer += '</ul>';
 
                 pagination.innerHTML = buffer;
@@ -175,24 +162,26 @@
                 let buffer;
 
                 images.innerHTML = '<div class="tl_message">'
-                    +'<p class="tl_info"><?= $this->noResult ?></p>'
-                    +'</div>'
-                ;
+                    +'<p class="tl_info"><?= $this->noResult; ?></p>'
+                    +'</div>';
 
                 if (jsonData.count > 0) {
                     buffer = ''
                         +'<input type="hidden" name="tl_images" value="">'
                         +'<input type="hidden" name="tl_imageIds" value="">'
                         +'<input type="hidden" name="tl_cache" value="'+jsonData.__api__.cache+'">'
-                        +'<h3>'+jsonData.count+' <?= $this->resultCount ?></h3>';
+                        +'<h3>'+jsonData.count+' <?= $this->resultCount; ?></h3>';
+
+                    buffer += '<div class="woi_message">';
 
                     buffer += (jsonData.__api__.cachedResult
                         ? '<div class="tl_message">'
-                        +'<p class="tl_info"><?= $this->resultCached ?></p>'
+                        +'<p class="tl_info"><?= $this->resultCached; ?></p>'
                         +'</div>'
                         : ''
                     );
 
+                    buffer += '</div>';
 
                     buffer += '<div class="flex-container">';
 
@@ -201,68 +190,67 @@
                             var value = jsonData.__meta__[key];
 
                             buffer += ''
-                                +'<div class="preview" id="preview_'+key+'">'
-                                +'<label for="image_'+key+ '">'
+                                +'<div class="preview" id="woi_preview_'+key+'">'
+                                +'<label for="woi_image_'+key+ '">'
                                 +'<div class="image-container">'
                                 +'<div class="image" style="background-image:url('+value.preview+')">'
-                                +'<a href="'+value.url+'" target="_blank" class="hidden"><?= ucfirst($this->provider) ?></a>'
+                                +'<a href="'+value.url+'" target="_blank" class="hidden"><?= ucfirst($this->provider); ?></a>'
                                 +'</div>'
                                 +'</div>'
                                 +'<br>'
-                                +'<input type="checkbox" id="image_'+key+'" value="'+key+'" name="tl_imageIds[]" onclick="clickImage(\''+key+'\');">'
+                                +'<input type="checkbox" id="woi_image_'+key+'" value="'+key+'" name="tl_imageIds[]" onclick="clickImage(\''+key+'\');">'
                                 +'ID: <strong>'+key+'</strong>'
                                 +'<table class="tl_show">'
                                 +'<tbody>';
 
                             if (undefined !== value.user) {
                                 buffer += '<tr>'
-                                    +'<td><strong><?= $this->user ?>:</strong></td>'
+                                    +'<td><strong><?= $this->user; ?>:</strong></td>'
                                     +'<td>'+value.user+'</td>'
                                     +'</tr>';
                             }
                             if (undefined !== value.tags) {
                                 buffer += '<tr>'
-                                    +'<td><strong><?= $this->tags ?>:</strong></td>'
+                                    +'<td><strong><?= $this->tags; ?>:</strong></td>'
                                     +'<td>'+value.tags+'</td>'
                                     +'</tr>';
                             }
                             if (undefined !== value.description) {
                                 buffer += '<tr>'
-                                    +'<td><strong><?= $this->description ?>:</strong></td>'
+                                    +'<td><strong><?= $this->description; ?>:</strong></td>'
                                     +'<td>'+value.description+'</td>'
                                     +'</tr>';
                             }
                             if (undefined !== value.color) {
                                 buffer += '<tr>'
-                                    +'<td><strong><?= $this->color ?>:</strong></td>'
+                                    +'<td><strong><?= $this->color; ?>:</strong></td>'
                                     +'<td>'
-                                    +'<span class="color" style="background:'+value.color.toLowerCase()+'"></span>'
-                                    +value.color.toLowerCase()
+                                    +'<span class="color" style="background:'+value.color.toLowerCase()+'"></span>'+value.color.toLowerCase()
                                     +'</td>'
                                     +'</tr>';
                             }
                             if (undefined !== value.downloads) {
                                 buffer += '<tr>'
-                                    +'<td><strong><?= $this->downloads ?>:</^strong></td>'
+                                    +'<td><strong><?= $this->downloads; ?>:</strong></td>'
                                     +'<td>'+value.downloads+'</td>'
                                     +'</tr>';
                             }
                             if (undefined !== value.views) {
                                 buffer += '<tr>'
-                                    +'<td><strong><?= $this->views ?>:</strong></td>'
+                                    +'<td><strong><?= $this->views; ?>:</strong></td>'
                                     +'<td>'+value.views+'</td>'
                                     +'</tr>';
                             }
                             if (undefined !== value.likes) {
                                 buffer += '<tr>'
-                                    +'<td><strong><?= $this->likes ?>:</strong></td>'
+                                    +'<td><strong><?= $this->likes; ?>:</strong></td>'
                                     +'<td>'+value.likes+'</td>'
                                     +'</tr>';
                             }
 
                             buffer += '<tr>'
-                                +'<td><strong><?= $this->link ?></strong></td>'
-                                +'<td><a href="'+value.url+'" target="_blank"><?= $this->linkIntro.' '.ucfirst($this->provider) ?></a></td>'
+                                +'<td><strong><?= $this->link; ?></strong></td>'
+                                +'<td><a href="'+value.url+'" target="_blank"><?= $this->linkIntro.' '.ucfirst($this->provider); ?></a></td>'
                                 +'</tr>';
 
                             buffer += '</tbody>'
@@ -274,24 +262,27 @@
 
                     buffer += '</div>';
 
-                    /*
-                    buffer += (jsonData.__api__.cachedResult
-                            ? '<div class="tl_message">'
-                                +'<p class="tl_info"><?= $this->resultCached ?></p>'
-                                +'</div>'
-                            : ''
-                    );
-                    */
-
                     images.innerHTML = buffer;
                     imagePagination(jsonData.count);
 
                     new Fx.Scroll(window).toElement(resultLegend);
+
+                    window.setTimeout(
+                        function() {
+                            let messages = document.querySelectorAll('#woi_inform .tl_message *');
+                            if (null !== messages) {
+                                messages.forEach(function (value) {
+                                    document.querySelector('.woi_message .tl_message').prepend(value);
+                                });
+                            }
+                        },
+                        750
+                    );
                 }
             }
 
             function clickImage(item) {
-                document.querySelector('#preview_'+item).classList.toggle('selected');
+                document.querySelector('#woi_preview_'+item).classList.toggle('selected');
 
                 submit.classList.add('invisible');
 
@@ -302,14 +293,9 @@
 
             function exception(jsonData) {
                 images.innerHTML = '<div class="widget tl_error">'
-                    +'<p>'
-                    +'<strong>#'+jsonData.__api__.exceptionId+'</strong>'
-                    +'</p>'
-                    +'<p>'
-                    +jsonData.__api__.exceptionMessage
-                    +'</p>'
-                    +'</div>'
-                ;
+                    +'<p><strong>#'+jsonData.__api__.exceptionId+'</strong></p>'
+                    +'<p>'+jsonData.__api__.exceptionMessage+'</p>'
+                    +'</div>';
             }
 
             function api(search) {
@@ -317,17 +303,14 @@
                 images.innerHTML = '<div class="spinner"></div>';
 
                 let xhr = new XMLHttpRequest();
-                let url ='<?= $this->url ?>'
-                    +'?<?= $this->queryKey ?>='+encodeURIComponent(search)
-                    +'<?= $this->queryParameter ?>'
-                    +'&page='+page
-                ;
+                let url ='<?= $this->url; ?>'
+                    +'?<?= $this->queryKey; ?>='+encodeURIComponent(search)
+                    +'<?= $this->queryParameter; ?>'
+                    +'&page='+page;
                 let jsonData = {};
 
                 xhr.open('GET', url);
                 xhr.onreadystatechange = function() {
-                    // jsonData = jsonData || {};
-
                     if (this.status === 200 && this.readyState === 4) {
                         jsonData = JSON.parse(this.responseText);
 
@@ -340,10 +323,7 @@
                         return false;
                     }
 
-                    // jsonData = jsonData || {};
                     jsonData.__api__ = jsonData.__api__ || {};
-
-                    // todo
                     jsonData.__api__.exceptionId = this.status;
                     jsonData.__api__.exceptionMessage = '[ERROR '+this.status+'] Please try again...';
 
@@ -366,7 +346,7 @@
                 let search = document.querySelector('[name="searchQuery"]').value;
 
                 if (undefined === search[0] || '' === search[0]) {
-                    images.innerHTML = '<?= $this->noResult ?>';
+                    images.innerHTML = '<?= $this->noResult; ?>';
 
                     return false;
                 }
@@ -380,18 +360,18 @@
         <div class="tl_box">
             <div class="widget">
                 <div class="worldofimages">
-                    <section id="inform" class="widget-group">
+                    <section id="woi_inform" class="widget-group">
                         <h2 class="provider-powered-by">
-                            <?= $this->poweredBy ?>
+                            <?= $this->poweredBy; ?>
                         </h2>
 
                         <div class="provider-link">
-                            <?= $this->providerLink ?>
-                            <?= $this->trilobitLink ?>
+                            <?= $this->providerLink; ?>
+                            <?= $this->trilobitLink; ?>
                         </div>
 
                         <div class="provider-hint">
-                            <?= $this->providerHint ?>
+                            <?= $this->providerHint; ?>
                         </div>
                     </section>
                 </div>

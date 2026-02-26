@@ -85,7 +85,7 @@ class Zone extends FileUpload
                 '.$GLOBALS['TL_LANG']['MSC']['woi_search'][0].'
             </h3>
 
-            <button type="woi" class="tl_submit provider search" title="'.$GLOBALS['TL_LANG']['MSC']['woi_search'][1].'">
+            <button type="woi_search" class="tl_submit provider search" title="'.$GLOBALS['TL_LANG']['MSC']['woi_search'][1].'">
                 '.$GLOBALS['TL_LANG']['MSC']['woi_search'][2].'
             </button>
 
@@ -449,12 +449,12 @@ class Zone extends FileUpload
             curl_setopt($objCurl, \CURLOPT_MAXREDIRS, 10);
 
             $stream = curl_exec($objCurl);
-            $returnCode = curl_getinfo($objCurl, \CURLINFO_HTTP_CODE);
+            $httpCode = curl_getinfo($objCurl, \CURLINFO_HTTP_CODE);
 
             curl_close($objCurl);
 
             // write
-            if (200 === $returnCode) {
+            if (200 === $httpCode) {
                 // file handle
                 $fileHandle = fopen($rootDir.'/'.$tmpFile, 'w');
 
@@ -462,7 +462,13 @@ class Zone extends FileUpload
 
                 fclose($fileHandle);
             } else {
-                Message::addError('#'.$returnCode.' '.$GLOBALS['TL_LANG']['MSC']['accountError'].' ['.$sourceFile.']');
+                Message::addError('#'.$httpCode.' '.$GLOBALS['TL_LANG']['MSC']['accountError'].' ['.$stream.']');
+
+                $logger->log(
+                    LogLevel::ERROR,
+                    ucfirst($provider).' error #'.$httpCode.' ['.$sourceFile.']',
+                    ['contao' => new ContaoContext(__METHOD__, 'TL_FILES')]
+                );
                 continue;
             }
 
