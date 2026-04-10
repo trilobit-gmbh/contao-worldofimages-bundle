@@ -13,7 +13,7 @@ use Contao\Controller;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\System;
 
-foreach ($GLOBALS['TRILOBIT']['worldofimages']['provider']  as $provider) {
+foreach ($GLOBALS['TRILOBIT']['worldofimages']['provider'] as $provider) {
     if (empty(Config::get($provider.'ApiKey'))) {
         continue;
     }

@@ -21,8 +21,7 @@ $GLOBALS['TL_LANG']['MSC']['pixabay']['hint'] = '<p>Fotos zur Verfügung gestell
     .'</ul>'
     .'<br>'
     .'<p>API-Dokumentation: <a href="https://pixabay.com/api/docs/" target="_blank" rel="noopener noreferrer"><u>pixabay.com/api/docs/</u></a></p>'
-    .'<p>Beachten Sie bitte die <strong>Pixabay <a href="https://pixabay.com/de/service/terms/#license" target="_blank" rel="noopener noreferrer"><u>Nutzungsbedingungen</u></a></strong>!</p>'
-;
+    .'<p>Beachten Sie bitte die <strong>Pixabay <a href="https://pixabay.com/de/service/terms/#license" target="_blank" rel="noopener noreferrer"><u>Nutzungsbedingungen</u></a></strong>!</p>';
 $GLOBALS['TL_LANG']['MSC']['pixabay']['resultCount'] = 'Treffer';
 $GLOBALS['TL_LANG']['MSC']['pixabay']['cachedResult'] = 'Cache-Ergebnis; Um die Pixabay-API für alle schnell zu halten, werden Anfragen 24 Stunden zwischengespeichert.';
 

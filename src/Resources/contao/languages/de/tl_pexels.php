@@ -22,8 +22,7 @@ $GLOBALS['TL_LANG']['MSC']['pexels']['hint'] = '<p>Fotos zur Verfügung gestellt
     .'</ul>'
     .'<br>'
     .'<p>API-Dokumentation: <a href="https://www.pexels.com/api/documentation/" target="_blank" rel="noopener noreferrer"><u>www.pexels.com/api/documentation/</u></a></p>'
-    .'<p>Beachten Sie bitte die <strong>Pexels <a href="https://www.pexels.com/photo-license/" target="_blank" rel="noopener noreferrer"><u>Nutzungsbedingungen</u></a></strong>!</p>'
-;
+    .'<p>Beachten Sie bitte die <strong>Pexels <a href="https://www.pexels.com/photo-license/" target="_blank" rel="noopener noreferrer"><u>Nutzungsbedingungen</u></a></strong>!</p>';
 $GLOBALS['TL_LANG']['MSC']['pexels']['resultCount'] = 'Treffer';
 $GLOBALS['TL_LANG']['MSC']['pexels']['cachedResult'] = 'Cache-Ergebnis; Um die Pexels-API für alle schnell zu halten, werden Anfragen 24 Stunden zwischengespeichert.';
 

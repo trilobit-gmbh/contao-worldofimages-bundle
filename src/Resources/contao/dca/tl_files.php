@@ -36,6 +36,7 @@ foreach ($GLOBALS['TRILOBIT']['worldofimages']['provider'] as $provider) {
     }
 }
 
+/*
 if (1 <= $count) {
     $GLOBALS['TL_DCA']['tl_files']['list']['global_operations'] = array_merge(
         ['image_worlds' => [
@@ -47,3 +48,4 @@ if (1 <= $count) {
         $GLOBALS['TL_DCA']['tl_files']['list']['global_operations']
     );
 }
+*/

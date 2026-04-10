@@ -26,9 +26,9 @@ class WorldofimagesExtension extends Extension
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader(
-            $container, new FileLocator(__DIR__.'/../Resources/config')
+            $container,
+            new FileLocator(__DIR__.'/../Resources/config')
         );
-
         $loader->load('services.yml');
 
         $config = Yaml::parse(
@@ -36,7 +36,7 @@ class WorldofimagesExtension extends Extension
         )['trilobit'];
 
         if (!empty($configs[0])) {
-            foreach ($GLOBALS['TRILOBIT']['worldofimages']['provider']  as $provider) {
+            foreach ($GLOBALS['TRILOBIT']['worldofimages']['provider'] as $provider) {
                 foreach ($configs[0][$provider] as $key => $value) {
                     $config[$provider][$key] = $value;
                 }
