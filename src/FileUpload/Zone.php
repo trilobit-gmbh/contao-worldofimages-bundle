@@ -39,9 +39,7 @@ class Zone extends FileUpload
         System::loadLanguageFile('tl_'.$provider);
         Controller::loadDataContainer('tl_'.$provider);
 
-        $defaultValue = !empty(Input::get('new'))
-            ? ''
-            : $result['__api__']['parameter'][$config['query_key']] ?? '';
+        $query = self::getQuery($result);
 
         $referer = System::getContainer()->get('router')->generate('contao_backend', ['do' => 'files']);
         $palette = new DC_File('tl_'.$provider);
@@ -58,23 +56,41 @@ class Zone extends FileUpload
 
         $buffer = preg_replace(
             '/<input type="hidden" name="FORM_SUBMIT" value=".*?">/si',
-            '<input type="hidden" name="FORM_SUBMIT" value="tl_upload">',
-            $buffer
-        );
-
-        $buffer = preg_replace(
-            '/^(.*?)<input type="hidden"(.*)$/si',
-            '$1<input type="hidden" name="action" value="'.$provider.'upload"><input type="hidden"$2',
+            '<input type="hidden" name="FORM_SUBMIT" value="tl_upload">'
+                .'<input type="hidden" name="action" value="'.$provider.'upload">',
             $buffer
         );
 
         $buffer = preg_replace(
             '/<input(.*?)name="searchQuery"(.*?)value=".*?"(.*?)>/',
-            '<input$1name="searchQuery"$2value="'.$defaultValue.'"$3>',
+            '<input$1name="searchQuery"$2value="'.$query.'"$3>',
             $buffer
         );
 
         return $buffer;
+    }
+
+    protected static function getQuery($result): string
+    {
+        $value = '';
+
+        if (empty(Input::get('new')) && !empty($result)) {
+            $value = $result['__api__']['parameter']['q'] ?? null;
+
+            if (null === $value) {
+                $value = $result['__api__']['parameter']['query'] ?? null;
+            }
+
+            if (null === $value) {
+                $value = $result['__api__']['parameter']['tags'] ?? null;
+            }
+
+            if (null === $value) {
+                $value = '';
+            }
+        }
+
+        return $value;
     }
 
     public static function onSearchSubmitField(DataContainer $dc, string $label): string
@@ -198,19 +214,7 @@ class Zone extends FileUpload
         if (!empty($result)) {
             $cachedResult = true;
 
-            $query = (
-                \array_key_exists('q', $result['__api__']['parameter'])
-                    ? $result['__api__']['parameter']['q']
-                    : (
-                        \array_key_exists('query', $result['__api__']['parameter'])
-                            ? $result['__api__']['parameter']['query']
-                            : (
-                                \array_key_exists('tags', $result['__api__']['parameter'])
-                                    ? $result['__api__']['parameter']['tags']
-                                    : ''
-                            )
-                    )
-            );
+            $query = self::getQuery($result);
 
             $page = \array_key_exists('page', $result['__api__']['parameter'])
                 ? $result['__api__']['parameter']['page']
