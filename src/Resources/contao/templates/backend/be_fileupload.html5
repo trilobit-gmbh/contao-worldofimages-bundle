@@ -10,6 +10,27 @@
 
 <turbo-stream action="before" target="pal_search_legend">
     <template>
+        <div class="tl_box">
+            <div class="widget">
+                <div class="worldofimages">
+                    <section id="woi_inform" class="widget-group">
+                        <h2 class="provider-powered-by">
+                            <?= $this->poweredBy; ?>
+                        </h2>
+
+                        <div class="provider-link">
+                            <?= $this->providerLink; ?>
+                            <?= $this->trilobitLink; ?>
+                        </div>
+
+                        <div class="provider-hint">
+                            <?= $this->providerHint; ?>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
         <script async>
             window.addEventListener("turbo:before-cache", function(event) {
                 if (null != document.querySelector('#tl_files')) {
@@ -30,7 +51,22 @@
 
                         if (null !== message) {
                             let target = document.querySelector('#woi_inform');
-                            target.prepend(message);
+
+                            if (null !== target) {
+                                target.prepend(message);
+                            }
+                        }
+
+                        let messages = document.querySelectorAll('#woi_inform .tl_message *');
+
+                        if (null !== messages) {
+                            let target = document.querySelector('.woi_message .tl_message');
+
+                            if (null !== target) {
+                                messages.forEach(function (value) {
+                                    document.querySelector('.woi_message .tl_message').prepend(value);
+                                });
+                            }
                         }
                     },
                     500
@@ -173,14 +209,14 @@
                         +'<h3>'+jsonData.count+' <?= $this->resultCount; ?></h3>';
 
                     buffer += '<div class="woi_message">';
+                    buffer += '<div class="tl_message">';
 
                     buffer += (jsonData.__api__.cachedResult
-                        ? '<div class="tl_message">'
-                        +'<p class="tl_info"><?= $this->resultCached; ?></p>'
-                        +'</div>'
-                        : ''
+                            ? '<p class="tl_info"><?= $this->resultCached; ?></p>'
+                            : ''
                     );
 
+                    buffer += '</div>';
                     buffer += '</div>';
 
                     buffer += '<div class="flex-container">';
@@ -266,18 +302,6 @@
                     imagePagination(jsonData.count);
 
                     new Fx.Scroll(window).toElement(resultLegend);
-
-                    window.setTimeout(
-                        function() {
-                            let messages = document.querySelectorAll('#woi_inform .tl_message *');
-                            if (null !== messages) {
-                                messages.forEach(function (value) {
-                                    document.querySelector('.woi_message .tl_message').prepend(value);
-                                });
-                            }
-                        },
-                        750
-                    );
                 }
             }
 
@@ -356,27 +380,6 @@
                 return false;
             }
         </script>
-
-        <div class="tl_box">
-            <div class="widget">
-                <div class="worldofimages">
-                    <section id="woi_inform" class="widget-group">
-                        <h2 class="provider-powered-by">
-                            <?= $this->poweredBy; ?>
-                        </h2>
-
-                        <div class="provider-link">
-                            <?= $this->providerLink; ?>
-                            <?= $this->trilobitLink; ?>
-                        </div>
-
-                        <div class="provider-hint">
-                            <?= $this->providerHint; ?>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </div>
     </template>
 </turbo-stream>
 
