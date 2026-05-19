@@ -18,7 +18,7 @@ class ApiController
     /**
      * @throws \Exception
      */
-    #[Route('/_trilobit/{slug}', name: self::class, defaults: ['_scope' => 'backend'])]
+    #[Route('/_trilobit/worldofimages/{slug}', name: self::class, defaults: ['_scope' => 'backend'])]
     public function __invoke($slug): void
     {
         if (!\in_array($slug, $GLOBALS['TRILOBIT']['worldofimages']['provider'], true)) {

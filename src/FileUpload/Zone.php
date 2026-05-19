@@ -20,6 +20,7 @@ use Contao\Database;
 use Contao\DataContainer;
 use Contao\Dbafs;
 use Contao\DC_File;
+use Contao\Environment;
 use Contao\File;
 use Contao\Files;
 use Contao\FileUpload;
@@ -229,7 +230,7 @@ class Zone extends FileUpload
         $template->query = $query;
         $template->page = $page;
         $template->language = $GLOBALS['TL_LANGUAGE'];
-        $template->url = '//'.\Contao\Environment::get('host').'/_trilobit/'.$provider;
+        $template->url = '//'.Environment::get('host').'/_trilobit/worldofimages/'.$provider;
         $template->queryKey = $config['query_key'];
 
         $template->queryParameter = '';
